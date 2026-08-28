@@ -3,13 +3,14 @@
 --  prouve, mesure et formate. Un support de formation dont la chaîne n'est
 --  pas démontrée ne vaut rien.
 with "../../shared.gpr";
+with "../../common/common.gpr";
 
 project Mod00 is
 
-   for Source_Dirs use ("src");
+   for Source_Dirs use ("src", "tests");
    for Object_Dir use "obj";
    for Exec_Dir use "bin";
-   for Main use ("main.adb");
+   for Main use ("main.adb", "test_fuel.adb");
 
    package Compiler renames Shared.Compiler;
    package Prove renames Shared.Prove;
