@@ -1,0 +1,25 @@
+--  ---------------------------------------------------------------------------
+--  La MÊME source, exercée par une campagne délibérément plus faible.
+--
+--  Ce projet ne duplique rien : il pointe sur ../src. Sa seule raison d'être
+--  est de produire un second rapport de couverture, à côté de celui de la
+--  campagne complète, pour que l'écart entre couverture de DÉCISION et
+--  couverture MC/DC soit mesuré et non affirmé.
+--
+--  Son rapport est volontairement INCOMPLET. C'est le seul endroit du dépôt
+--  où un chiffre de couverture n'est pas à 100 %, et c'est délibéré.
+--  ---------------------------------------------------------------------------
+with "../../../shared.gpr";
+with "../../../common/common.gpr";
+
+project Decision is
+
+   for Source_Dirs use ("../src", "src");
+   for Object_Dir use "obj";
+   for Exec_Dir use "bin";
+   for Main use ("test_decision_only.adb");
+
+   package Compiler renames Shared.Compiler;
+   package Prove renames Shared.Prove;
+
+end Decision;
