@@ -1,0 +1,14 @@
+{
+  "name": "DO-178C training — Ada/SPARK",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "workspaceFolder": "/workspace",
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "remoteUser": "ubuntu",
+  "customizations": {
+    "vscode": {
+      "extensions": ["AdaCore.ada"]
+    }
+  }
+}
