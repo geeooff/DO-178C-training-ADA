@@ -45,13 +45,11 @@ is
          Label & " (attendu """ & Expected & """, obtenu """ & Actual & """)");
    end Check_Equal;
 
-   procedure Check_Raises_Constraint_Error
-     (Action : not null access procedure; Label : String)
-   is
+   procedure Check_Raises_Constraint_Error (Label : String) is
       Raised : Boolean := False;
    begin
       begin
-         Action.all;
+         Action;
       exception
          when Constraint_Error =>
             Raised := True;

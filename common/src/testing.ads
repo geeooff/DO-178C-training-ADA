@@ -34,8 +34,15 @@ is
    --  Vérifie qu'une action lève bien Constraint_Error. C'est le pendant
    --  Ada des tests de robustesse du §6.4.2 : on ne teste pas seulement que
    --  le nominal marche, mais que l'anormal est refusé.
-   procedure Check_Raises_Constraint_Error
-     (Action : not null access procedure; Label : String);
+   --
+   --  Générique et non « accès à sous-programme » : un `access procedure`
+   --  refuserait à la compilation qu'on lui passe une procédure déclarée
+   --  dans le corps d'un test (règles d'accessibilité), alors que c'est
+   --  exactement là qu'on veut l'écrire. Le générique n'a pas ce défaut, et
+   --  évite au harnais le type accès que le module 07 apprend à bannir.
+   generic
+      with procedure Action;
+   procedure Check_Raises_Constraint_Error (Label : String);
 
    --  Affiche le bilan et positionne le code de retour du programme : 0 si
    --  tout passe, 1 sinon. C'est ce code que la CI regarde.
