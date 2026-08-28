@@ -123,6 +123,11 @@ Chacun a coûté du temps une fois. Ils sont aussi dans
   déclare un. Un script qui parcourt `bin/*` doit filtrer les répertoires.
 - **`alr exec` exige un `alire.toml`.** Sans espace de travail Alire, poser le
   `PATH` à la main.
+- **`core.filemode=false` sous Windows : `chmod +x` n'entre jamais dans
+  l'index.** Les scripts sont enregistrés en `100644` et la CI échoue en
+  **exit 126**. Invisible en local — un montage bind depuis Windows présente
+  tout en 777. Seul un `git checkout` sur un runner Linux le révèle.
+  Correction : `git update-index --chmod=+x <fichier>`.
 
 ### Langage
 

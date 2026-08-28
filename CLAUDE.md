@@ -189,6 +189,12 @@ privilégié du conteneur.
   exécuter les programmes témoins doit filtrer les répertoires.
 - **`alr exec` exige un `alire.toml`.** Sans espace de travail Alire, il faut
   poser le `PATH` à la main — ce que fait l'image.
+- **`core.filemode=false` sous Windows : `chmod +x` n'entre jamais dans
+  l'index.** Les scripts se retrouvent en `100644`, et la CI échoue en
+  **exit 126** — commande trouvée, non exécutable. Le défaut est invisible en
+  local : un montage bind depuis Windows présente tout en 777, et `docker cp`
+  d'un arbre de travail aussi. Seul un vrai `git checkout` sur un runner Linux
+  le révèle. Correction : `git update-index --chmod=+x <fichier>`.
 
 - **`gnatcov instrument` est incompatible avec `Abstract_State`.** Il insère
   une variable témoin devant chaque déclaration d'objet ; dans un paquetage à
