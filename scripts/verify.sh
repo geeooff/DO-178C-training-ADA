@@ -31,7 +31,7 @@ fi
 
 if [ "$ETAPE" = all ] || [ "$ETAPE" = run ]; then
    titre "Exécution des programmes témoins"
-   for exe in modules/*/bin/*; do
+   for exe in modules/*/bin/* modules/*/*/bin/*; do
       [ -f "$exe" ] && [ -x "$exe" ] || continue
       echo "  $exe"
       "$exe"

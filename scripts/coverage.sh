@@ -68,6 +68,14 @@ for p in "${PROJETS[@]}"; do
       ( cd "$dossier" && "./bin/$(basename "$exe")" > /dev/null )
    done
 
+   #  Un projet sans campagne de test ne produit aucune trace. C'est le cas
+   #  du profil restreint du module 06, qui ne sert qu'à démontrer qu'il se
+   #  construit. Rien à mesurer, donc, et rien à masquer non plus.
+   if ! compgen -G "$dossier/*.srctrace" > /dev/null; then
+      echo "  (aucune campagne de test : rien à mesurer)"
+      continue
+   fi
+
    mkdir -p "$sortie"
    gnatcov coverage -P "$p" --level="$NIVEAU" --annotate=xcov \
       "${HORS_PERIMETRE[@]}" --output-dir="$sortie" "$dossier"/*.srctrace

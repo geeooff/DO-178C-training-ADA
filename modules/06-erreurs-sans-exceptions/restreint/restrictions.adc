@@ -1,0 +1,12 @@
+--  Profil d'exécution sans exceptions.
+--
+--  Ces deux restrictions sont vérifiées par le compilateur ET par l'éditeur
+--  de liens : aucune unité de la partition ne peut contenir un gestionnaire
+--  d'exception, et aucune exception ne peut se propager hors du
+--  sous-programme qui la lève.
+--
+--  C'est la traduction en langage de la règle de codage « pas d'exceptions
+--  en DAL A/B ». La différence avec un standard de codage écrit dans un
+--  document Word est qu'ici, personne ne peut l'enfreindre par distraction.
+pragma Restrictions (No_Exception_Handlers);
+pragma Restrictions (No_Exception_Propagation);
