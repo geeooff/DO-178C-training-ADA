@@ -116,6 +116,13 @@ class Requirement:
     line: int = 0
     derived: bool = False
 
+    #  Une exigence peut etre verifiee par TEST, par ANALYSE ou par REVUE
+    #  (DO-178C 6.3 et 6.4). Un outil qui ne connait que le test signale a
+    #  tort comme non verifiee toute exigence dont la verification est une
+    #  analyse -- et le bruit finit par faire ignorer les vrais defauts.
+    verification: str = ""
+    by_analysis: bool = False
+
     code_sites: list[str] = field(default_factory=list)
     test_cases: list[str] = field(default_factory=list)
 
@@ -175,6 +182,12 @@ def parse_requirement_files(root: Path) -> dict[str, Requirement]:
                 current.derived = len(parents) == 0
             elif name in ("enonce", "énoncé"):
                 current.statement = value
+            elif name in ("verification", "vérification"):
+                current.verification = value
+                minuscule = value.lower()
+                current.by_analysis = (
+                    "analyse" in minuscule or "revue" in minuscule
+                )
 
     return requirements
 
@@ -359,7 +372,13 @@ def print_report(findings: Findings) -> int:
     ]
     defauts_test = []
     observations_test = []
+    par_analyse = []
     for requirement in sans_test:
+        #  Verifiee par ANALYSE ou par REVUE plutot que par test : legitime
+        #  (§6.3, §6.4), et il faut alors que le champ Verification le dise.
+        if requirement.by_analysis:
+            par_analyse.append(requirement)
+            continue
         if requirement.kind.upper() == "HLR":
             enfants = [
                 v for v in llr.values() if requirement.identifier in v.parents
@@ -376,6 +395,18 @@ def print_report(findings: Findings) -> int:
             print(f"      {requirement.identifier}  ({requirement.kind})")
     else:
         print("  [2] toute exigence est verifiee, directement ou via ses LLR")
+
+    if par_analyse:
+        print(
+            f"      {len(par_analyse)} exigence(s) verifiee(s) par ANALYSE "
+            "ou REVUE, sans cas de test — legitime si le champ"
+        )
+        print("      Verification le dit explicitement :")
+        for requirement in par_analyse:
+            print(
+                f"        {requirement.identifier}  "
+                f"({requirement.verification})"
+            )
 
     if observations_test:
         print(
