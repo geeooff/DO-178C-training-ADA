@@ -19,3 +19,4 @@ config/
 # Divers
 .DS_Store
 reports/
+pile/

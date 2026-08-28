@@ -1,0 +1,17 @@
+--  Profil temps réel de ce sous-projet.
+--
+--  `pragma Profile (Ravenscar)` n'est pas une convention : c'est un jeu de
+--  restrictions vérifiées par le compilateur. Il interdit notamment les
+--  objets protégés locaux, la hiérarchie de tâches, les délais relatifs, les
+--  entrées de tâche multiples, les priorités dynamiques et le `select`.
+--
+--  Ce qui reste est un modèle d'exécution dont on sait calculer
+--  l'ordonnançabilité : des tâches périodiques de priorité fixe, des objets
+--  protégés à plafond de priorité, et rien d'autre. C'est ce qui rend une
+--  analyse temps réel possible au lieu d'être un vœu.
+pragma Profile (Ravenscar);
+
+--  Aucune allocation dynamique, nulle part. Sans tas, il n'y a ni
+--  fragmentation, ni épuisement imprévisible, ni temps d'allocation à borner.
+pragma Restrictions (No_Allocators);
+pragma Restrictions (No_Dependence => Ada.Unchecked_Deallocation);

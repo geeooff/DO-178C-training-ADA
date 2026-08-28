@@ -202,6 +202,14 @@ privilégié du conteneur.
 
 ### Pièges de langage, vérifiés eux aussi
 
+- **Un caractère hors Latin-1 dans un LITTÉRAL de chaîne est illégal** :
+  `String` est un tableau de `Character`. Le tiret cadratin `—` (U+2014)
+  passe en commentaire mais fait échouer `gnatprove` avec « literal out of
+  range of type Standard.Character ». Dans les chaînes affichées, s'en tenir
+  au Latin-1 : `é à ç « »` passent, `— …` non.
+- **`'Size` et compagnie ne s'appliquent qu'à un nom.** Écrire
+  `(X'Size / 8)'Image` est refusé ; qualifier :
+  `Natural'Image (X'Size / 8)`.
 - **`-gnatys` exige une déclaration avant tout corps de sous-programme**, y
   compris pour une procédure imbriquée dans un `main`. Deux lignes de plus,
   et la signature se lit sans dérouler le corps.
