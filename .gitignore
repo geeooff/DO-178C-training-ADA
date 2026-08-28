@@ -1,0 +1,20 @@
+# Produits de compilation GNAT / gprbuild
+obj/
+bin/
+lib/
+*.ali
+*.o
+*.exe
+
+# Produits de vérification
+*.srctrace
+gnatprove/
+gnatinspect*
+*.xcov
+
+# Espace de travail Alire
+alire/
+config/
+
+# Divers
+.DS_Store

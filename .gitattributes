@@ -1,0 +1,13 @@
+* text=auto eol=lf
+
+*.ads   text diff=ada
+*.adb   text diff=ada
+*.gpr   text
+*.md    text
+*.sh    text eol=lf
+*.toml  text
+*.json  text
+*.yml   text
+
+*.png   binary
+*.pdf   binary
