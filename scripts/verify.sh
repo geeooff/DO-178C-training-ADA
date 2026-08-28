@@ -5,7 +5,7 @@
 # d'un ensemble d'extraits jamais compilés.
 #
 #   ./scripts/verify.sh          toutes les étapes
-#   ./scripts/verify.sh build    une seule étape (build|run|prove|format)
+#   ./scripts/verify.sh build    une étape (build|run|prove|trace|format)
 # ---------------------------------------------------------------------------
 set -euo pipefail
 
@@ -47,6 +47,15 @@ if [ "$ETAPE" = all ] || [ "$ETAPE" = prove ]; then
       # fait pas partie.
       gnatprove -P "$p" -U --checks-as-errors=on --report=statistics -q
    done
+fi
+
+if [ "$ETAPE" = all ] || [ "$ETAPE" = trace ]; then
+   titre "Traçabilité exigences <-> code <-> tests"
+   # --strict : la vérification échoue si la matrice se dégrade. C'est ce qui
+   # empêche une exigence non implémentée, un test orphelin ou une référence
+   # documentaire périmée de passer inaperçus.
+   python3 tools/trace_check.py --strict --csv reports/tracabilite.csv \
+      | tail -20
 fi
 
 if [ "$ETAPE" = all ] || [ "$ETAPE" = format ]; then
