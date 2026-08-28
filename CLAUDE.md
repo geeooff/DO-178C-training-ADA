@@ -189,6 +189,29 @@ privilégié du conteneur.
 - **`alr exec` exige un `alire.toml`.** Sans espace de travail Alire, il faut
   poser le `PATH` à la main — ce que fait l'image.
 
+### Pièges de langage, vérifiés eux aussi
+
+- **`-gnatys` exige une déclaration avant tout corps de sous-programme**, y
+  compris pour une procédure imbriquée dans un `main`. Deux lignes de plus,
+  et la signature se lit sans dérouler le corps.
+- **Ada 2022 veut `[...]` pour les agrégats de tableau.** `(...)` déclenche
+  `-gnatwj`, donc une erreur ici.
+- **`'Old` doit nommer une entité** dès que l'expression est potentiellement
+  non évaluée — c'est-à-dire dès qu'il y a un `and then`. Écrire
+  `Level (T'Old)` et non `Level (T)'Old`. Ne pas suivre la suggestion du
+  compilateur d'ajouter `pragma Unevaluated_Use_Of_Old (Allow)` : la forme
+  correcte est plus claire et copie moins.
+- **`Type_Invariant` + `'Old` dans une conséquence de `Contract_Cases` lève
+  une fausse « failed invariant »** à l'exécution sous GNAT 16.1.0, alors que
+  l'invariant est respecté. Vérifié sur un cas minimal : le même énoncé écrit
+  dans un `Post` fonctionne, et sans `Type_Invariant` le `Contract_Cases`
+  fonctionne aussi. Répartir : `Contract_Cases` pour la table de décision,
+  `Post` pour la condition de cadre.
+- **SPARK refuse un `Type_Invariant` sur la déclaration privée** : il le veut
+  sur la complétion, dans la partie privée.
+- **SPARK refuse un littéral réel dans une multiplication en virgule fixe.**
+  Donner un type à la constante — ce qui rend l'échelle explicite.
+
 ## Discipline de vérification — non négociable
 
 C'est ce qui donne au dépôt C++ sa crédibilité, et ce qui devra être reproduit
