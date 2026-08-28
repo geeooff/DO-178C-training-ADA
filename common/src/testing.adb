@@ -1,3 +1,4 @@
+with Ada.Assertions;
 with Ada.Command_Line;
 with Ada.Text_IO;
 
@@ -56,6 +57,18 @@ is
       end;
       Check (Raised, Label & " doit lever Constraint_Error");
    end Check_Raises_Constraint_Error;
+
+   procedure Check_Raises_Assertion_Error (Label : String) is
+      Raised : Boolean := False;
+   begin
+      begin
+         Action;
+      exception
+         when Ada.Assertions.Assertion_Error =>
+            Raised := True;
+      end;
+      Check (Raised, Label & " doit lever Assertion_Error");
+   end Check_Raises_Assertion_Error;
 
    procedure Summary (Suite : String) is
       use Ada.Command_Line;

@@ -44,6 +44,12 @@ is
       with procedure Action;
    procedure Check_Raises_Constraint_Error (Label : String);
 
+   --  Même chose pour Assertion_Error, que lèvent les aspects Pre, Post,
+   --  Type_Invariant et Predicate lorsque -gnata est actif.
+   generic
+      with procedure Action;
+   procedure Check_Raises_Assertion_Error (Label : String);
+
    --  Affiche le bilan et positionne le code de retour du programme : 0 si
    --  tout passe, 1 sinon. C'est ce code que la CI regarde.
    procedure Summary (Suite : String);
