@@ -1,0 +1,14 @@
+with "../../shared.gpr";
+with "../../common/common.gpr";
+
+project Mod02 is
+
+   for Source_Dirs use ("src", "tests");
+   for Object_Dir use "obj";
+   for Exec_Dir use "bin";
+   for Main use ("main.adb", "test_fuel_gauge.adb");
+
+   package Compiler renames Shared.Compiler;
+   package Prove renames Shared.Prove;
+
+end Mod02;
