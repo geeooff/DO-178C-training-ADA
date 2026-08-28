@@ -189,6 +189,17 @@ privilégié du conteneur.
 - **`alr exec` exige un `alire.toml`.** Sans espace de travail Alire, il faut
   poser le `PATH` à la main — ce que fait l'image.
 
+- **`gnatcov instrument` est incompatible avec `Abstract_State`.** Il insère
+  une variable témoin devant chaque déclaration d'objet ; dans un paquetage à
+  état abstrait, ces variables deviennent de l'état caché absent du
+  `Refined_State`, et GNAT rejette le raffinement. Identique en corps et en
+  partie privée ; `--spark-compat` n'y change rien (gnatcov 26.2.1). Réponse
+  retenue : coquille d'état mince et sans décision, logique dans un paquetage
+  sans état qui, lui, est mesuré, et exclusion justifiée dans `coverage.sh`.
+- **`gnatformat` réécrit `=>+` en `=> +`**, forme que `-gnatyt` refuse
+  ensuite. Deux outils de la chaîne se contredisent. Écrire la dépendance en
+  toutes lettres : `Depends => (State => (State, Reading))`.
+
 ### Pièges de langage, vérifiés eux aussi
 
 - **`-gnatys` exige une déclaration avant tout corps de sous-programme**, y
