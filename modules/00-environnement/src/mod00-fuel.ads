@@ -2,7 +2,7 @@
 --  repris du dépôt frère en C++. Il est ici pour une seule raison : donner
 --  à la chaîne d'outils quelque chose de non trivial à prouver.
 
-package Fuel
+package Mod00.Fuel
   with SPARK_Mode => On
 is
 
@@ -23,4 +23,4 @@ is
        Saturating_Add'Result
        = (if Left + Right > Max_Litres then Max_Litres else Left + Right);
 
-end Fuel;
+end Mod00.Fuel;

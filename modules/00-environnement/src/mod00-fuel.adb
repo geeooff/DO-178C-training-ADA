@@ -1,4 +1,4 @@
-package body Fuel
+package body Mod00.Fuel
   with SPARK_Mode => On
 is
 
@@ -17,4 +17,4 @@ is
       end if;
    end Saturating_Add;
 
-end Fuel;
+end Mod00.Fuel;

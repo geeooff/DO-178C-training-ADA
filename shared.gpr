@@ -1,0 +1,35 @@
+--  ---------------------------------------------------------------------------
+--  Commutateurs communs à tout le dépôt.
+--
+--  Un projet abstrait ne produit rien : il ne sert qu'à être hérité. Chaque
+--  module fait `package Compiler renames Shared.Compiler;`, ce qui garantit
+--  que personne ne compile avec des règles plus douces que les autres. En
+--  DO-178C, l'environnement de compilation fait partie de la configuration
+--  (§11.15) : le dupliquer dans treize fichiers reviendrait à en avoir treize
+--  versions.
+--  ---------------------------------------------------------------------------
+abstract project Shared is
+
+   for Source_Dirs use ();
+
+   package Compiler is
+      for Default_Switches ("Ada") use
+        ("-gnat2022",   --  Ada 2022 : aspects, expressions conditionnelles.
+         "-gnatW8",     --  Sources en UTF-8. Le défaut de GNAT est Latin-1.
+         "-gnata",      --  Assertions actives : les contrats sont vérifiés
+                        --  aussi à l'exécution, pas seulement par la preuve.
+         "-gnatwa",     --  Tous les avertissements utiles...
+         "-gnatwe",     --  ...traités en erreurs. Non négociable ici.
+         "-gnatyy",     --  Style GNAT standard, 79 colonnes comprises.
+         "-gnatf",      --  Diagnostics complets plutôt que le premier.
+         "-g",
+         "-O0");
+   end Compiler;
+
+   package Prove is
+      --  --checks-as-errors=on est indispensable : sans lui gnatprove sort
+      --  avec le code 0 même quand des vérifications restent non prouvées.
+      for Proof_Switches ("Ada") use ("--level=2", "--checks-as-errors=on");
+   end Prove;
+
+end Shared;

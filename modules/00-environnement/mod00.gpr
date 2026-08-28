@@ -2,31 +2,16 @@
 --  prouver que le SECI décrit par .devcontainer/Dockerfile compile, exécute,
 --  prouve, mesure et formate. Un support de formation dont la chaîne n'est
 --  pas démontrée ne vaut rien.
-project Environment is
+with "../../shared.gpr";
+
+project Mod00 is
 
    for Source_Dirs use ("src");
    for Object_Dir use "obj";
    for Exec_Dir use "bin";
    for Main use ("main.adb");
 
-   package Compiler is
-      for Default_Switches ("Ada") use
-        ("-gnat2022",   --  Ada 2022 : aspects Pre/Post, expressions if.
-         "-gnatW8",     --  Sources en UTF-8. Le défaut de GNAT est Latin-1.
-         "-gnata",      --  Assertions actives : les contrats sont vérifiés
-                        --  à l'exécution, pas seulement par la preuve.
-         "-gnatwa",     --  Tous les avertissements utiles...
-         "-gnatwe",     --  ...traités en erreurs. Non négociable ici.
-         "-gnatyy",     --  Style GNAT standard.
-         "-gnatf",      --  Diagnostics complets plutôt que le premier.
-         "-g",
-         "-O0");
-   end Compiler;
+   package Compiler renames Shared.Compiler;
+   package Prove renames Shared.Prove;
 
-   package Prove is
-      --  --checks-as-errors=on est indispensable : sans lui gnatprove sort
-      --  avec le code 0 même quand des vérifications restent non prouvées.
-      for Proof_Switches ("Ada") use ("--level=2", "--checks-as-errors=on");
-   end Prove;
-
-end Environment;
+end Mod00;
