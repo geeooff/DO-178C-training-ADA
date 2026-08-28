@@ -12,7 +12,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 NIVEAU="${NIVEAU:-stmt+mcdc}"
-mapfile -t PROJETS < <(find modules -name '*.gpr' | sort)
+mapfile -t PROJETS < <(find modules -name '*.gpr' -not -path '*/nonconforme/*' | sort)
 
 # ---------------------------------------------------------------------------
 # Fichiers hors périmètre de mesure. Une exclusion se justifie, sinon elle

@@ -43,6 +43,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          #  git describe a besoin de l'historique complet : config_index.py
+          #  s'en sert pour identifier la baseline dans le SCI.
+          fetch-depth: 0
 
       - uses: docker/setup-buildx-action@v3
 
@@ -85,6 +89,31 @@ jobs:
             -v "$PWD:/workspace" \
             --user "$(id -u):$(id -g)" -e HOME=/tmp \
             do178c-ada:verif ./scripts/coverage.sh
+
+      # Le SCI et le SECI sont des données de vie CC1 : ils ne sont pas
+      # versionnés — ils sont REGÉNÉRÉS depuis l'état exact du dépôt, sinon
+      # ils se périment en silence. fetch-depth: 0 plus haut est nécessaire à
+      # `git describe`, dont l'outil se sert pour identifier la baseline.
+      - name: Produire le SCI et le SECI
+        run: |
+          docker run --rm \
+            -v "$PWD:/workspace" \
+            --user "$(id -u):$(id -g)" -e HOME=/tmp \
+            do178c-ada:verif bash -lc '
+              git config --global --add safe.directory /workspace
+              python3 tools/config_index.py'
+
+      - name: Archiver les données de vie
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: donnees-de-vie
+          path: |
+            reports/SCI.md
+            reports/SECI.md
+            reports/tracabilite.csv
+          if-no-files-found: ignore
+          retention-days: 90
 
       - name: Archiver les rapports de couverture
         if: always()

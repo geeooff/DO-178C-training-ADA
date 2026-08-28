@@ -1,0 +1,25 @@
+--  ---------------------------------------------------------------------------
+--  Le contre-exemple : un fichier qui viole VOLONTAIREMENT le standard.
+--
+--  Il a son propre projet, avec des commutateurs relâchés, parce qu'il ne
+--  compilerait pas sous ceux du dépôt — et c'est exactement ce qu'on veut
+--  montrer. `scripts/coding-standard.sh` le recompile sous les commutateurs
+--  STRICTS et affiche ce que le compilateur en dit.
+--
+--  Un standard de codage qui n'a pas de contre-exemple exécutable est un
+--  document que personne ne relit.
+--  ---------------------------------------------------------------------------
+project Nonconforme is
+
+   for Source_Dirs use ("src");
+   for Object_Dir use "obj";
+   for Exec_Dir use "bin";
+   for Main use ("bad_style.adb");
+
+   package Compiler is
+      --  Volontairement relâché : ni -gnatwe, ni -gnaty. Le fichier compile,
+      --  et c'est le propos.
+      for Default_Switches ("Ada") use ("-gnat2022", "-gnatW8");
+   end Compiler;
+
+end Nonconforme;

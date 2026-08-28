@@ -20,7 +20,7 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-mapfile -t PROJETS < <(find common modules -name '*.gpr' | sort)
+mapfile -t PROJETS < <(find common modules -name '*.gpr' -not -path '*/nonconforme/*' | sort)
 
 titre() { printf '\n\033[1m== %s ==\033[0m\n' "$1"; }
 

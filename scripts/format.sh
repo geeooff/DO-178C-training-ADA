@@ -12,7 +12,10 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-mapfile -t PROJETS < <(find common modules -name '*.gpr' | sort)
+#  Le contre-exemple du module 11 est exclu : il viole le standard À DESSEIN,
+#  et son seul point d'entrée est scripts/coding-standard.sh, qui vérifie
+#  précisément qu'il ne compile PAS sous ces commutateurs.
+mapfile -t PROJETS < <(find common modules -name '*.gpr' -not -path '*/nonconforme/*' | sort)
 
 for p in "${PROJETS[@]}"; do
    echo "  $p"

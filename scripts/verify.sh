@@ -12,7 +12,10 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 ETAPE="${1:-all}"
-mapfile -t PROJETS < <(find common modules -name '*.gpr' | sort)
+#  Le contre-exemple du module 11 est exclu : il viole le standard À DESSEIN,
+#  et son seul point d'entrée est scripts/coding-standard.sh, qui vérifie
+#  précisément qu'il ne compile PAS sous ces commutateurs.
+mapfile -t PROJETS < <(find common modules -name '*.gpr' -not -path '*/nonconforme/*' | sort)
 
 if [ ${#PROJETS[@]} -eq 0 ]; then
    echo "Aucun projet GPR trouvé sous modules/." >&2
