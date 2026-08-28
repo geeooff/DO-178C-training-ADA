@@ -1,8 +1,9 @@
 # Contexte du projet
 
 > Ce fichier a été rédigé **avant** la première session de travail, depuis le
-> projet frère en C++, pour transmettre le contexte. Rien n'existe encore dans
-> ce dépôt. Voir « Première session » en fin de fichier.
+> projet frère en C++, pour transmettre le contexte. Il a été **corrigé au fur
+> et à mesure** : sa section « Chaîne d'outils » énonce désormais des faits
+> mesurés, et « État du dépôt » dit où en est le travail.
 
 ## Ce qu'est ce dépôt
 
@@ -265,6 +266,60 @@ dans un support de formation.
 - Adresse d'auteur : l'adresse *noreply* GitHub
   (`10533139+geeooff@users.noreply.github.com`), déjà configurée globalement.
 - Ne rien pousser sans demande explicite.
+
+## État du dépôt — 2026-08-28
+
+**Les treize modules sont écrits, et tout est vert.** Chiffres obtenus par
+exécution, pas estimés :
+
+| | |
+|---|---|
+| Campagnes | 106 cas, 222 vérifications, 0 échec |
+| Preuve SPARK | 253 obligations déchargées, 1 justifiée |
+| Couverture | 47 mesures à 100 %, une seule volontairement partielle |
+| Traçabilité | 0 défaut, 25 exigences, 2 dérivées |
+| Avertissements | 0, traités en erreurs |
+
+L'unique chiffre de couverture inférieur à 100 % est celui de
+`modules/10-couverture-et-preuve/decision-seule/` — une campagne délibérément
+faible, dont l'écart avec la campagne complète **est** le sujet du module.
+
+### Noms de répertoires réels
+
+Ils diffèrent légèrement de la table des décisions ci-dessous :
+
+```
+00-environnement            07-memoire-statique
+01-types-et-contraintes     08-objet-do332
+02-verifications-execution  09-exigences-tracabilite
+03-contrats-ada-2022        10-couverture-et-preuve
+04-spark-analyse-de-flot    11-standards-qualification
+05-spark-preuve-do333       12-projet-integre
+06-erreurs-sans-exceptions
+```
+
+### Conventions établies en écrivant
+
+- **Un paquetage racine `ModNN` par module**, avec des enfants
+  `ModNN.Composant`. Pendant Ada des namespaces `modNN::` du dépôt frère.
+- **Sous-projets pour ce qui doit être construit autrement** :
+  `06/restreint/` (profil sans exceptions), `07/ravenscar/` (profil temps
+  réel), `10/decision-seule/` (campagne faible), `11/nonconforme/`
+  (contre-exemple du standard). Chacun pointe sur les sources du module,
+  aucun ne les duplique.
+- **`11/nonconforme/` est exclu** de `verify.sh` et `format.sh` : il viole le
+  standard à dessein. Son seul point d'entrée est `scripts/coding-standard.sh`,
+  qui vérifie qu'il ne compile PAS.
+- **Six scripts** : `verify.sh` (build, run, prove, trace, format),
+  `coverage.sh`, `format.sh` — jamais en CI — plus trois scripts de mesure,
+  `checks-cost.sh`, `stack-usage.sh`, `coding-standard.sh`.
+
+### Ce qui reste ouvert
+
+- Aucun `push` n'a été fait. Le dépôt est local.
+- Pas de tag de version.
+- Le tableau du marché français (`docs/05-ressources.md`) est à réactualiser
+  sur des offres réelles.
 
 ## Décisions arrêtées — 2026-08-28
 
