@@ -1,0 +1,96 @@
+# =============================================================================
+#  Intégration continue — une seule vérité sur l'environnement
+#
+#  Le dépôt frère en C++ a cinq jobs qui installent chacun leur chaîne avec
+#  apt. Ici, un seul job, qui construit l'image du SECI et lance la
+#  vérification **dedans**.
+#
+#  Pourquoi ce choix. Le §11.15 demande que l'environnement de construction
+#  soit identifié et maîtrisé. Si le workflow réinstallait GNAT de son côté,
+#  le dépôt aurait deux descriptions de son environnement — celle du
+#  Dockerfile et celle du YAML — qui divergeraient au premier oubli. Une
+#  seule source, et la CI vérifie précisément ce que le développeur exécute
+#  sur son poste.
+#
+#  Le prix payé : la construction de l'image dure environ deux minutes à
+#  froid. Le cache GitHub Actions la ramène à quelques secondes tant que le
+#  Dockerfile ne change pas — et quand il change, c'est justement qu'il faut
+#  la reconstruire.
+#
+#  RÉSERVE : `ubuntu-26.04` est une image de runner en PRÉVERSION chez GitHub.
+#  Une image beta peut évoluer sans préavis, ce qu'un SECI cherche à éviter.
+#  L'exposition est ici minime — le runner ne fournit que Docker, toute la
+#  chaîne Ada venant de l'image épinglée.
+# =============================================================================
+name: CI
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verification:
+    name: Vérification dans le SECI
+    runs-on: ubuntu-26.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Construire le SECI
+        uses: docker/build-push-action@v6
+        with:
+          context: .devcontainer
+          load: true
+          tags: do178c-ada:verif
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # Identifier l'environnement de production fait partie des données de
+      # vie : le journal de la CI doit dire avec quoi le résultat a été
+      # obtenu, sans avoir à ouvrir le Dockerfile.
+      - name: Identifier l'environnement
+        run: |
+          docker run --rm do178c-ada:verif bash -lc '
+            . /etc/os-release && echo "Système    : $PRETTY_NAME $(uname -m)"
+            echo "gnatmake   : $(gnatmake --version | head -1)"
+            echo "gprbuild   : $(gprbuild --version | head -1)"
+            echo "gnatprove  : $(gnatprove --version | head -1)"
+            echo "gnatcov    : $(gnatcov --version | head -1)"
+            echo "gnatformat : $(gnatformat --version | head -1)"'
+
+      # --user : le dépôt appartient à l'utilisateur du runner (uid 1001) et
+      # non à l'utilisateur `ubuntu` de l'image (uid 1000). Sans cette option,
+      # gprbuild ne peut pas créer obj/. HOME doit suivre, sinon les outils
+      # cherchent un répertoire personnel qui n'existe pas.
+      - name: Vérifier — compilation, exécution, preuve, formatage
+        run: |
+          docker run --rm \
+            -v "$PWD:/workspace" \
+            --user "$(id -u):$(id -g)" -e HOME=/tmp \
+            do178c-ada:verif ./scripts/verify.sh
+
+      - name: Mesurer la couverture (statements, décisions, MC/DC)
+        run: |
+          docker run --rm \
+            -v "$PWD:/workspace" \
+            --user "$(id -u):$(id -g)" -e HOME=/tmp \
+            do178c-ada:verif ./scripts/coverage.sh
+
+      - name: Archiver les rapports de couverture
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rapport-couverture
+          path: reports/couverture/
+          if-no-files-found: ignore
+          retention-days: 30
