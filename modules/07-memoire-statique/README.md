@@ -145,7 +145,7 @@ taille de sa trame et sa nature :
 Sur ce dépôt, à ce jour :
 
 ```
-239 sous-programmes, 25800 octets de trames cumulés
+375 sous-programmes, 38928 octets de trames cumulés
 ```
 
 Et surtout, ceci :
@@ -156,7 +156,7 @@ Et surtout, ceci :
 | `dynamic` | taille calculée à l'exécution | uniquement dans les démonstrations et le harnais |
 | `bounded` | variable mais majorée | idem |
 
-**Aucune unité `mod0*` — c'est-à-dire aucun code « embarqué » de ce dépôt —
+**Aucune unité `modNN` — c'est-à-dire aucun code « embarqué » de ce dépôt —
 n'a de trame non statique.** Toutes les trames dynamiques viennent de
 `Ada.Text_IO` et de la concaténation de chaînes :
 
@@ -170,9 +170,8 @@ démonstration, et proscrit dans du code de vol — d'où la règle usuelle : **
 de `Ada.Text_IO`, pas de chaînes de longueur variable** dans les unités
 embarquées.
 
-La plus grosse trame du dépôt, 1 776 octets, est celle du `main` de
-démonstration du module 01. Le code sous test le plus gourmand tient en
-quelques dizaines d'octets.
+La plus grosse trame du dépôt est celle d'un programme de démonstration, et
+le code sous test le plus gourmand tient en quelques dizaines d'octets.
 
 > **Limite honnête.** Ce script n'est pas une analyse de pile. Il donne les
 > trames, pas le **chemin d'appel le plus profond**, qui est ce qu'il faut
