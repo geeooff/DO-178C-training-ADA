@@ -1,0 +1,22 @@
+--  ---------------------------------------------------------------------------
+--  Bibliothèque commune : le harnais de test, et rien d'autre.
+--
+--  Le dépôt frère en C++ a un `common/include/avio/types.hpp` qui définit
+--  u8, u16, i32... Il n'a **aucun équivalent ici**, et c'est le premier
+--  enseignement du dépôt : ce que le C++ doit construire à la main, Ada le
+--  donne dans le langage.
+--  ---------------------------------------------------------------------------
+with "../shared.gpr";
+
+library project Common is
+
+   for Source_Dirs use ("src");
+   for Object_Dir use "obj";
+   for Library_Name use "training_common";
+   for Library_Dir use "lib";
+   for Library_Kind use "static";
+
+   package Compiler renames Shared.Compiler;
+   package Prove renames Shared.Prove;
+
+end Common;

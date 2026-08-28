@@ -12,7 +12,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 ETAPE="${1:-all}"
-mapfile -t PROJETS < <(find modules -name '*.gpr' | sort)
+mapfile -t PROJETS < <(find common modules -name '*.gpr' | sort)
 
 if [ ${#PROJETS[@]} -eq 0 ]; then
    echo "Aucun projet GPR trouvé sous modules/." >&2
