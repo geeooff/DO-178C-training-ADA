@@ -224,13 +224,52 @@ dans un support de formation.
   (`10533139+geeooff@users.noreply.github.com`), déjà configurée globalement.
 - Ne rien pousser sans demande explicite.
 
-## Première session
+## Décisions arrêtées — 2026-08-28
 
-1. ~~Confirmer la disponibilité réelle de **GNAT, gprbuild et gnatprove**.~~
-   **Fait le 2026-08-28**, voir « Chaîne d'outils » plus haut.
-2. Trancher la tension « autonome vs. renvoi au dépôt C++ » (voir plus haut).
-3. Arrêter le découpage en modules — le dépôt C++ en a 17 ; viser moins ici,
-   la moitié du contenu langage devenant sans objet.
-4. Décider du système de build (`gprbuild` seul, ou piloté par Alire) et de la
-   CI — le dépôt C++ tourne sur `ubuntu-26.04`, cinq jobs.
-5. `git init`, puis un `README.md` et ce fichier comme premier commit.
+Les cinq questions de première session sont tranchées. Ce qui suit est la
+référence ; ne pas les rouvrir sans raison neuve.
+
+**1. Chaîne d'outils.** Alire binaire amont, versions épinglées dans l'image.
+Voir « Chaîne d'outils » plus haut.
+
+**2. Autonomie vis-à-vis du dépôt C++ — autonome pour la prose, dupliqué pour
+l'outillage.** Les modules de processus (09 à 11) sont rédigés de façon
+autonome mais condensée, avec renvoi explicite au module C++ correspondant
+pour le traitement long. En revanche les **artefacts et l'outillage** —
+exigences, matrice de traçabilité, `trace_check.py` — sont physiquement ici et
+s'exécutent ici. Un renvoi casserait la règle « vérifié pour de vrai », et le
+projet intégré en dépend pour tourner.
+
+**3. Découpage — 13 modules**, contre 17 en C++ :
+
+| # | Module | # | Module |
+|---|---|---|---|
+| 00 | environnement | 07 | mémoire statique et déterminisme |
+| 01 | types et contraintes | 08 | objet et DO-332 |
+| 02 | vérifications à l'exécution | 09 | exigences, traçabilité, tests |
+| 03 | contrats Ada 2022 | 10 | couverture et crédit de preuve |
+| 04 | SPARK — analyse de flot | 11 | standards, qualification, configuration |
+| 05 | SPARK — preuve, DO-333 | 12 | projet intégré FQMS |
+| 06 | erreurs sans exceptions | | |
+
+Disparus par rapport au C++ : pointeurs et `const`, RAII, templates. Nouveaux :
+02, 04 et 05 — c'est là qu'est la valeur qu'Ada seul permet d'enseigner.
+
+**4. Construction — `gprbuild` seul.** Un `.gpr` par module, `shared.gpr` pour
+les commutateurs, `common/common.gpr` pour le harnais. **Pas d'`alire.toml`** :
+les donneurs d'ordre lisent des `.gpr`, pas des manifestes Alire, et `alr exec`
+exigerait un espace de travail. Alire installe la chaîne dans l'image, et
+s'arrête là.
+
+**5. CI — un seul job, dans l'image.** Il construit le SECI puis lance
+`verify.sh` et `coverage.sh` dedans. Réinstaller la chaîne dans le workflow
+créerait deux vérités sur l'environnement, ce que le §11.15 cherche justement
+à empêcher.
+
+**6. Tests — harnais maison, pas AUnit.** AUnit existe comme crate Alire, mais
+trois raisons l'écartent : il exigerait un `alire.toml` (voir 4), il repose sur
+des types étiquetés et de l'allocation dynamique — ce que le module 07 apprend
+justement à bannir — et il ne sait rien des exigences. Le harnais de
+`common/src/testing.ads` tient en deux cents lignes, n'alloue rien, et porte
+l'identifiant d'exigence dans l'appel, ce qui rend la traçabilité vérifiable
+par outil. AUnit est présenté et comparé au module 09.
