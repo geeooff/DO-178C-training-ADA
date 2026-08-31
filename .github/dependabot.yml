@@ -1,0 +1,54 @@
+# =============================================================================
+#  Suivi des dépendances de la chaîne de vérification.
+#
+#  POURQUOI CE FICHIER EXISTE
+#  --------------------------
+#  Un dépôt qui prêche la gestion de configuration ne peut pas laisser ses
+#  propres dépendances vieillir en silence. La première version de ce dépôt
+#  utilisait actions/checkout@v4 alors que v7 était sortie : trois majeures de
+#  retard, découvertes seulement parce que GitHub a signalé la dépréciation de
+#  Node 20. Une mise à jour ponctuelle ne fait que relancer le compteur ; ce
+#  qu'il faut, c'est que le retard redevienne VISIBLE.
+#
+#  Les propositions arrivent en pull request, avec les notes de version. Elles
+#  se relisent — on ne fusionne pas une mise à jour de la chaîne de
+#  vérification sans regarder ce qui change, pas plus qu'on ne changerait une
+#  version dans le Dockerfile sans rejouer la vérification.
+#
+#  CE QUE DEPENDABOT NE VOIT PAS
+#  -----------------------------
+#  Les versions épinglées dans .devcontainer/Dockerfile — GNAT, gprbuild,
+#  gnatprove, gnatcov, gnatformat — sont des CRATES ALIRE, pas des paquets
+#  d'un écosystème que Dependabot connaît. Elles restent donc un point de
+#  revue MANUEL, et c'est le vrai risque de dette de ce dépôt. Les revoir en
+#  même temps que les propositions ci-dessous :
+#
+#      alr search gnatprove --full
+#
+#  Dependabot suit en revanche l'image de base `ubuntu:26.04` du Dockerfile.
+#  Une proposition de passer à une version non LTS est à REFUSER : le choix de
+#  26.04 est documenté dans le CLAUDE.md et aligné sur le poste de
+#  développement.
+# =============================================================================
+version: 2
+
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "CI"
+    groups:
+      actions:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "docker"
+    directory: "/.devcontainer"
+    schedule:
+      interval: "monthly"
+    open-pull-requests-limit: 2
+    commit-message:
+      prefix: "SECI"

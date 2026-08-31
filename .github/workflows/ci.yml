@@ -21,6 +21,19 @@
 #  Une image beta peut évoluer sans préavis, ce qu'un SECI cherche à éviter.
 #  L'exposition est ici minime — le runner ne fournit que Docker, toute la
 #  chaîne Ada venant de l'image épinglée.
+#
+#  ACTIONS ÉPINGLÉES PAR SHA, PAS PAR ÉTIQUETTE
+#  --------------------------------------------
+#  `actions/checkout@v7` est une étiquette MOUVANTE : GitHub la déplace à
+#  chaque correctif. C'est le même défaut que `ubuntu-latest`, et le dépôt ne
+#  peut pas le reprocher à l'un en le tolérant chez l'autre. Chaque action est
+#  donc figée sur un SHA de commit, avec sa version en commentaire — la forme
+#  que Dependabot sait mettre à jour.
+#
+#  Une étiquette peut être reposée sur un autre commit par le propriétaire du
+#  dépôt d'action, ou par quelqu'un qui en aurait pris le contrôle. Un SHA,
+#  non. Sur un projet réel, c'est la différence entre « on utilise checkout
+#  v7 » et « on sait exactement quel code a tourné ».
 # =============================================================================
 name: CI
 
@@ -42,16 +55,16 @@ jobs:
     runs-on: ubuntu-26.04
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           #  git describe a besoin de l'historique complet : config_index.py
           #  s'en sert pour identifier la baseline dans le SCI.
           fetch-depth: 0
 
-      - uses: docker/setup-buildx-action@v3
+      - uses: docker/setup-buildx-action@37fe631027851001ddb9b187196cc803df7f5f0e # v4.3.0
 
       - name: Construire le SECI
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7.3.0
         with:
           context: .devcontainer
           load: true
@@ -105,7 +118,7 @@ jobs:
 
       - name: Archiver les données de vie
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: donnees-de-vie
           path: |
@@ -117,7 +130,7 @@ jobs:
 
       - name: Archiver les rapports de couverture
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: rapport-couverture
           path: reports/couverture/
