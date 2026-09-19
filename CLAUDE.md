@@ -17,7 +17,8 @@ Il peut renvoyer au projet frère en C++, jamais en dépendre pour être compris
 
 ## Le projet frère
 
-`../DO-178C-training` — même démarche, même auteur, même public, en **C++17**.
+`../DO-178C-training` en local, `github.com/geeooff/DO-178C-training` en
+ligne — même démarche, même auteur, même public, en **C++17**.
 17 modules, 19 campagnes de test, outillage de traçabilité, CI verte sur trois
 chaînes. Il est **terminé et vérifié** : c'est la référence de qualité à
 égaler, et la source des conventions ci-dessous.
@@ -128,7 +129,6 @@ français parce que son lecteur lit et applique plus vite dans cette langue.
 **Spécificité Ada :** la convention du langage est `Mixed_Case_With_Underscores`
 style GNAT, vérifié par `gnatformat` — et non par `gnatpp` ni `gnatcheck`,
 qui ne sont pas distribués librement. Ne pas transposer le style C++.
-C++.
 
 ## Chaîne d'outils — vérifiée le 2026-08-28
 
@@ -322,12 +322,25 @@ Ils diffèrent légèrement de la table des décisions ci-dessous :
   `coverage.sh`, `format.sh` — jamais en CI — plus trois scripts de mesure,
   `checks-cost.sh`, `stack-usage.sh`, `coding-standard.sh`.
 
+### Publication — 2026-09-19
+
+Le dépôt est sur GitHub (`geeooff/DO-178C-training-ADA`), CI verte dans le
+SECI, actions épinglées par SHA, Dependabot configuré. Une revue de
+publication a corrigé ce qu'un lecteur du métier aurait relevé : numéros
+d'objectifs A-n.m et de paragraphes de la DO-178C, critères DO-330,
+attribution des CAST, une référence bibliographique inventée, la
+terminologie « type dérivé », et les liens vers le dépôt frère. Le protocole
+de cette revue est simple et à rejouer avant tout passage en public :
+chaque référence normative vérifiée contre la norme, chaque lien vérifié
+par outil, chaque chiffre du README recompté depuis un journal d'exécution.
+
 ### Ce qui reste ouvert
 
-- Aucun `push` n'a été fait. Le dépôt est local.
 - Pas de tag de version.
 - Le tableau du marché français (`docs/05-ressources.md`) est à réactualiser
   sur des offres réelles.
+- Les versions des crates Alire du Dockerfile ne sont suivies par personne :
+  point de revue manuel, à faire à chaque proposition Dependabot.
 
 ## Décisions arrêtées — 2026-08-28
 
