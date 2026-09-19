@@ -35,7 +35,7 @@ is
    --  vérifiée à chaque affectation.
    subtype Celsius is Integer range -60 .. 90;
 
-   --  --- 4. Types dérivés : deux grandeurs qu'on ne mélangera pas
+   --  --- 4. Types distincts : deux grandeurs qu'on ne mélangera pas
    --
    --  `type ... is delta ...` crée un type NOUVEAU. Litres et Kilograms ont
    --  la même représentation et restent incompatibles : `Volume + Masse` ne

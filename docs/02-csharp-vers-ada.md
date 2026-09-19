@@ -41,15 +41,15 @@ procedure Set_Fuel (Value : Litres);
 La contrainte est écrite **une fois**, dans le type. Toute affectation, tout
 passage de paramètre, toute conversion la vérifie. Voir [module 01](../modules/01-types-et-contraintes/).
 
-### 2.2 Sous-type ou type dérivé — la distinction que C# n'a pas
+### 2.2 Sous-type ou type distinct — la distinction que C# n'a pas
 
 | | Ada | Équivalent C# |
 |---|---|---|
 | **Sous-type** | `subtype Celsius is Integer range -60 .. 90;` | aucun ; un `int` avec des gardes |
-| **Type dérivé** | `type Litres is delta 0.25 range 0.0 .. 1_024.0;` | un `struct` enveloppant, à la main |
+| **Type distinct** | `type Litres is delta 0.25 range 0.0 .. 1_024.0;` | un `struct` enveloppant, à la main |
 
 Un sous-type **est** son type de base : il s'additionne avec lui sans
-conversion. Un type dérivé ne l'est pas : `Volume + Masse` ne compile pas.
+conversion. Un type distinct ne l'est pas : `Volume + Masse` ne compile pas.
 
 C# 10 a bien les *record structs*, mais rien n'empêche d'écrire
 `new Litres(kilos.Value)`. En Ada, la conversion doit nommer le facteur.
@@ -191,7 +191,7 @@ l'ordonnancement indécidable. Voir [module 07 §1.3](../modules/07-memoire-stat
 
 **En Ada et pas en C# :**
 
-- les sous-types contraints et les types dérivés ;
+- les sous-types contraints et les types distincts ;
 - `Pre` / `Post` / `Type_Invariant` / `Contract_Cases` prouvables ;
 - `Global` / `Depends` — le couplage de données déclaré et vérifié ;
 - les représentations mémoire spécifiées (`for X'Size use …`, clauses de

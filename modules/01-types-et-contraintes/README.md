@@ -8,7 +8,7 @@
 ## Objectifs pédagogiques
 
 1. Cesser de choisir un type entier, et commencer à déclarer des **bornes**.
-2. Distinguer **sous-type** et **type dérivé**, et savoir lequel empêche quel
+2. Distinguer **sous-type** et **type distinct**, et savoir lequel empêche quel
    accident.
 3. Savoir quand le débordement est **défini** (types modulaires) et quand il
    lève `Constraint_Error`.
@@ -58,7 +58,7 @@ place.
 > `Litres` en Ada est un choix de **domaine**. Ce n'est pas la même
 > conversation.
 
-### 1.2 Sous-type ou type dérivé : la distinction que C# n'a pas
+### 1.2 Sous-type ou type distinct : la distinction que C# n'a pas
 
 C# a `int`, et éventuellement un `struct` enveloppant. Ada a **deux**
 mécanismes, et les confondre est l'erreur de débutant la plus coûteuse.
@@ -66,10 +66,16 @@ mécanismes, et les confondre est l'erreur de débutant la plus coûteuse.
 | | Déclaration | Compatible avec le type de base ? | À quoi ça sert |
 |---|---|---|---|
 | **Sous-type** | `subtype Celsius is Integer range -60 .. 90;` | **Oui**, sans conversion | Restreindre un domaine |
-| **Type dérivé** | `type Litres is delta 0.25 range 0.0 .. 1_024.0;` | **Non** | Empêcher un mélange |
+| **Type distinct** | `type Litres is delta 0.25 range 0.0 .. 1_024.0;` | **Non** | Empêcher un mélange |
 
 Un `Celsius` **est** un `Integer`. Il s'additionne avec un `Integer` sans
 cérémonie ; seule la plage est vérifiée à l'affectation.
+
+> **Vocabulaire.** Ada réserve le mot *dérivé* à la forme
+> `type Kilograms is new Litres;` (RM 3.4), qui crée un type distinct à partir
+> d'un autre. Une déclaration `type Litres is delta …` crée un type *nouveau*
+> de toutes pièces. Les deux formes donnent un type **distinct** — c'est cette
+> propriété qui compte ici, et c'est le mot employé dans la suite.
 
 Un `Litres` **n'est pas** un `Kilograms`, même s'ils ont exactement la même
 représentation en mémoire. `Volume + Masse` ne compile pas. Pour passer de
@@ -83,7 +89,7 @@ relire en revue.
 >
 > Les deux logiciels étaient corrects. C'est l'**interface** qui ne l'était
 > pas — et aucun des deux compilateurs n'avait de quoi s'en apercevoir, parce
-> que les deux grandeurs étaient des `double`. Avec deux types dérivés
+> que les deux grandeurs étaient des `double`. Avec deux types
 > distincts, l'affectation ne compile pas.
 
 ### 1.3 Types modulaires : le débordement défini
@@ -195,7 +201,7 @@ correspondance à maintenir. Le `name_of()` que le dépôt frère en C++ doit
 | Objectif | Ce que le module apporte |
 |---|---|
 | **A-5.6** — le code est *accurate and consistent* | Bornes dans le type, pas dans les commentaires ; pas d'arrondi flottant à justifier |
-| **A-3.2 / A-4.2** — exigences *accurate and consistent* | Un type dérivé rend une confusion d'unité impossible à écrire |
+| **A-3.2 / A-4.2** — exigences *accurate and consistent* | Un type distinct rend une confusion d'unité impossible à écrire |
 | **A-5.1** — le code est conforme aux exigences de bas niveau | Les aspects `Post` disent ce que les LLR demandent |
 | **§6.4.2.2** — cas de robustesse | `Decode_Sensor_Id` et `Clamp_Temperature` ont chacun leur cas hors domaine |
 
@@ -244,7 +250,7 @@ compilateur, on le **qualifie** — sujet du module 11.
    directement : lire le message du compilateur.
 2. Remplacer `subtype Celsius is Integer range -60 .. 90;` par
    `type Celsius is range -60 .. 90;` et recompiler. Combien d'erreurs ?
-   Qu'est-ce que cela dit du choix entre sous-type et type dérivé ?
+   Qu'est-ce que cela dit du choix entre sous-type et type distinct ?
 3. Retirer `with Small => 0.001` de `Density_Kg_Per_L`, relancer la campagne
    et expliquer le résultat de `to_kilograms_applies_density`.
 4. Écrire un cas de robustesse pour `To_Litres` qui montre qu'aucune valeur de
@@ -263,9 +269,9 @@ compilateur, on le **qualifie** — sujet du module 11.
 > n'interdit pas le flottant, elle demande de justifier la précision (A-5.6) —
 > et cette justification coûte beaucoup moins cher en virgule fixe.
 
-> **« Sous-type ou type dérivé ? »**
+> **« Sous-type ou type distinct ? »**
 > Sous-type quand on restreint un domaine et qu'on veut rester compatible.
-> Type dérivé quand on veut qu'un mélange soit une **erreur de compilation** :
+> Type distinct quand on veut qu'un mélange soit une **erreur de compilation** :
 > des litres et des kilogrammes, des pieds et des mètres. Mars Climate Orbiter
 > est l'argument.
 

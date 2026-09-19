@@ -169,7 +169,7 @@ Les citer est facile ; en tirer la bonne leçon distingue.
 > newtons-seconde, facteur 4,45, sonde perdue.
 > **Les deux logiciels étaient corrects** : c'est l'interface qui ne l'était
 > pas, et aucun compilateur n'avait de quoi s'en apercevoir parce que les deux
-> grandeurs étaient des `double`. Deux types dérivés distincts rendent
+> grandeurs étaient des `double`. Deux types distincts rendent
 > l'affectation impossible à écrire.
 
 > **Air Canada 143 (1983).** Conversion livres/kilogrammes fausse au plein,

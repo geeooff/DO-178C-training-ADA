@@ -70,7 +70,7 @@ Voir [module 11](../modules/11-standards-qualification/) et
 | Terme | Ce que c'est |
 |---|---|
 | **Sous-type** | Même type, domaine restreint. `subtype Celsius is Integer range -60 .. 90;` Compatible avec le type de base. |
-| **Type dérivé** | Type **nouveau**, incompatible. `type Litres is delta 0.25 range 0.0 .. 1_024.0;` |
+| **Type distinct** | Type **nouveau** (`type Litres is delta 0.25 range 0.0 .. 1_024.0;`) ou **dérivé** (`type Kilograms is new Litres;`). Dans les deux cas, incompatible avec tout autre type sans conversion explicite. |
 | **Type modulaire** | `type Raw is mod 2**12;` Débordement **défini**, il boucle. |
 | **Virgule fixe** | Un entier mis à l'échelle. Ni exposant, ni `NaN`, ni mode d'arrondi. |
 | **`Small`** | Le pas réel de représentation d'un type à virgule fixe. À déclarer explicitement. |

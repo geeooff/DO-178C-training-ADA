@@ -60,7 +60,7 @@
 - [ ] Aucun nombre magique ; toute constante est nommée et tracée à sa source.
 - [ ] Types de domaine explicite (`subtype Litres is Natural range 0 .. …`),
       jamais `Integer` ni `Natural` nus dans une spécification publique.
-- [ ] Grandeurs physiques distinctes = **types dérivés** distincts.
+- [ ] Grandeurs physiques distinctes = **types distincts**.
 - [ ] `Small` explicite sur tout type à virgule fixe.
 - [ ] Pas de récursion.
 - [ ] Aucune allocation dynamique ; `No_Allocators` s'applique.
@@ -85,7 +85,7 @@
       ou par un contrat, pas par un commentaire.
 - [ ] **Division** : le diviseur nul est exclu par le type ou par la
       précondition.
-- [ ] **Conversions** : toute conversion entre types dérivés est explicite et
+- [ ] **Conversions** : toute conversion entre types distincts est explicite et
       son facteur est nommé.
 - [ ] **Virgule fixe** : le `Small` est explicite, et l'arrondi est spécifié.
 - [ ] **Tableaux** : tout indice venu de l'extérieur est validé avant usage.
