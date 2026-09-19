@@ -3,10 +3,10 @@
 # Analyse de pile — support du module 07.
 #
 # Sans allocation dynamique, la seule mémoire qui varie à l'exécution est la
-# PILE. La DO-178C ne la nomme pas explicitement, mais §6.3.3.f (« les
-# ressources sont suffisantes ») et l'analyse de l'exécutable en dépendent
-# directement : un débordement de pile est un défaut catastrophique et
-# silencieux.
+# PILE. La DO-178C la nomme explicitement : le §6.3.4.f (objectif A-5.6, le
+# code est « accurate and consistent ») cite l'usage de la pile parmi ce que
+# la revue du code doit examiner, à côté du temps d'exécution pire cas. Un
+# débordement de pile est un défaut catastrophique et silencieux.
 #
 # -fstack-usage fait écrire au compilateur, pour chaque sous-programme, la
 # taille de sa trame et sa nature — `static`, `dynamic` ou `bounded`. Une
