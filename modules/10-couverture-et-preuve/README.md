@@ -6,7 +6,7 @@
 ---
 
 Module de **processus**, donc condensé : le dépôt frère en C++
-([module 11](../../../DO-178C-training/modules/11-couverture-structurelle/))
+([module 11](https://github.com/geeooff/DO-178C-training/tree/main/modules/11-couverture-structurelle))
 fait autorité pour le traitement long. Ce qui est ici, ce sont les **mesures**
 — faites sur ce code-ci, avec GNATcoverage, jusqu'au MC/DC que `gcov` ne
 savait pas produire.

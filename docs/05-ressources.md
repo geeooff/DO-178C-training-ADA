@@ -98,7 +98,7 @@ candidats.
 
 ## 6. Le dépôt frère
 
-[`../DO-178C-training`](../../DO-178C-training/) — la même démarche en
+[`geeooff/DO-178C-training`](https://github.com/geeooff/DO-178C-training) — la même démarche en
 **C++17**, avec le **même cas d'étude FQMS** et les **mêmes exigences de haut
 niveau**.
 

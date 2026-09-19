@@ -8,9 +8,9 @@
 Premier module de **processus**. Ce qu'il enseigne est indépendant du langage :
 un ingénieur qui sait rédiger et tracer des exigences le sait en Ada comme en
 C++. Le traitement est donc **condensé** — le dépôt frère en C++ y consacre
-trois modules, [`09`](../../../DO-178C-training/modules/09-exigences-tracabilite/),
-[`10`](../../../DO-178C-training/modules/10-tests-bases-exigences/) et
-[`12`](../../../DO-178C-training/modules/12-couplage-donnees-controle/), et
+trois modules, [`09`](https://github.com/geeooff/DO-178C-training/tree/main/modules/09-exigences-tracabilite),
+[`10`](https://github.com/geeooff/DO-178C-training/tree/main/modules/10-tests-bases-exigences) et
+[`12`](https://github.com/geeooff/DO-178C-training/tree/main/modules/12-couplage-donnees-controle), et
 fait autorité pour le traitement long.
 
 Ce qui est **ici** et pas là-bas : les artefacts et l'outillage tournent dans

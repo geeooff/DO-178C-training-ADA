@@ -6,9 +6,9 @@
 ---
 
 Module de **processus**, donc condensé : le dépôt frère en C++
-([module 13](../../../DO-178C-training/modules/13-standards-codage/) pour le
+([module 13](https://github.com/geeooff/DO-178C-training/tree/main/modules/13-standards-codage) pour le
 standard,
-[module 14](../../../DO-178C-training/modules/14-configuration-qualite/) pour
+[module 14](https://github.com/geeooff/DO-178C-training/tree/main/modules/14-configuration-qualite) pour
 la configuration) fait autorité pour le traitement long.
 
 Ce qui est **ici** : un standard de codage écrit pour Ada, son contre-exemple
