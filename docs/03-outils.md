@@ -47,10 +47,12 @@ l'utilisateur non privilégié du conteneur.
 
 À savoir avant de promettre quoi que ce soit en entretien.
 
-### `gnatcheck` n'est pas distribuable
+### `gnatcheck` n'est pas distribué en binaire libre
 
-Aucune *crate* Alire, aucune release binaire sur
-`AdaCore/langkit-query-language`. Il n'est fourni qu'avec **GNAT Pro**.
+Ses sources sont publiques — `AdaCore/langkit-query-language`, dossier
+`lkql_checker` — mais il n'existe ni *crate* Alire ni release binaire, et le
+construire demande toute la chaîne Langkit / Libadalang. En pratique, il
+vient avec **GNAT Pro**.
 
 Conséquence pour ce dépôt : l'analyse statique repose sur ce que le
 compilateur offre — `-gnatwa -gnatwe` et le vérificateur de style `-gnaty` —

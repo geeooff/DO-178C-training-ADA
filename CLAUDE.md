@@ -158,9 +158,11 @@ privilégié du conteneur.
 
 ### Deux outils annoncés qui n'existent pas librement
 
-- **`gnatcheck` n'est pas distribuable.** Aucune crate Alire, aucune release
-  binaire sur `AdaCore/langkit-query-language`. Il n'est fourni qu'avec GNAT
-  Pro. L'analyse statique doit donc reposer ici sur ce que le compilateur
+- **`gnatcheck` n'est pas distribué en binaire libre.** Ses sources sont
+  publiques (`AdaCore/langkit-query-language`, dossier `lkql_checker`), mais
+  aucune crate Alire, aucune release binaire, et le construire demande toute
+  la chaîne Langkit / Libadalang. En pratique, il vient avec GNAT Pro.
+  L'analyse statique doit donc reposer ici sur ce que le compilateur
   offre — `-gnatwa -gnatwe` et le vérificateur de style `-gnaty` — plus
   `gnatprove` lui-même, qui va bien au-delà d'un linter.
 - **`gnatpp` est remplacé par `gnatformat`.** `gnatpp` n'est plus livré qu'au
