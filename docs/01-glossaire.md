@@ -59,7 +59,7 @@ Voir [module 11](../modules/11-standards-qualification/) et
 | **Couverture de décisions** | Chaque test booléen a pris ses deux valeurs. DAL B. |
 | **MC/DC** | *Modified Condition/Decision Coverage*. Chaque **condition** a démontré qu'elle pouvait, seule, faire basculer sa décision. DAL A. |
 | **MC/DC masqué** | Variante admise (CAST-10) où une condition non évaluée par court-circuit est considérée masquée. Sans elle, MC/DC serait inatteignable sur `and then` / `or else`. |
-| **Code objet sans équivalent source** | Code généré par le compilateur qui ne correspond à aucune instruction écrite. Déclenche A-7.7 au DAL A. Voir [module 02](../modules/02-verifications-execution/). |
+| **Code objet sans équivalent source** | Code généré par le compilateur qui ne correspond à aucune instruction écrite. Déclenche A-7.9 au DAL A. Voir [module 02](../modules/02-verifications-execution/). |
 | **Code mort** (*dead*) | Rien ne le justifie. Il part. |
 | **Code désactivé** (*deactivated*) | Prévu, tracé à une exigence, inactif dans cette configuration. Il reste et se justifie. |
 | **Couplage de données / de contrôle** | A-7.8. Quelles données circulent entre composants, qui appelle qui. En SPARK : `Global` et `Depends`. |

@@ -139,10 +139,10 @@ de ses objectifs à la place d'une revue ou d'un test.
 | Objectif DO-178C | Crédit possible par la preuve | Commentaire |
 |---|---|---|
 | A-5.1 — code conforme aux LLR | **oui** | postconditions prouvées |
-| A-5.2 — code conforme au standard | non | c'est de l'analyse statique |
+| A-5.4 — code conforme au standard | non | c'est de l'analyse statique |
 | A-5.6 — code *accurate and consistent* | **oui, largement** | AoRTE couvre la classe entière |
-| A-6.3 / A-6.4 — tests de robustesse | **partiellement** | la preuve traite tout le domaine |
-| A-7.5 — couverture des LLR | **oui, sous conditions** | FM.6.7.1 : il faut vérifier la *complétude* des propriétés |
+| A-6.2 / A-6.4 — tests de robustesse | **partiellement** | la preuve traite tout le domaine |
+| A-7.4 — couverture des LLR | **oui, sous conditions** | FM.6.7.1 : il faut vérifier la *complétude* des propriétés |
 | A-7.8 — couplage données/contrôle | **oui** | par l'analyse de flot (module 04) |
 
 Trois exigences que la DO-333 pose en échange, et qu'il faut savoir citer :
@@ -205,8 +205,8 @@ répond à « le code fait-il ce qui est spécifié ? », la couverture
 structurelle répond à « le code contient-il autre chose que ce que les tests
 ont exercé ? ». Ce sont deux questions différentes, et la seconde reste
 posée même quand la première a une réponse parfaite. C'est aussi pourquoi la
-DO-333 ne permet pas de créditer A-7.5 sans démontrer par ailleurs la
-**complétude** des propriétés (FM.6.7.1).
+DO-333 ne permet pas de créditer la couverture structurelle (A-7.5 à A-7.7)
+sans démontrer par ailleurs la **complétude** des propriétés (FM.6.7.1).
 
 ### 1.8 « Et si le prouveur se trompe ? »
 

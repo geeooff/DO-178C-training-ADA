@@ -201,7 +201,8 @@ de source.** Trois réponses possibles, et il faut en choisir une explicitement 
    GNATcoverage sait le faire ; cela demande un émulateur ou une cible
    instrumentée.
 3. **Renoncer à `Abstract_State`** sur les unités à mesurer. C'est perdre
-   l'artefact A-7.8 pour gagner l'artefact A-7.5 : un mauvais échange.
+   l'artefact A-7.8 pour gagner les mesures de couverture (A-7.5 à A-7.7) :
+   un mauvais échange.
 
 Ce genre d'arbitrage — deux outils qualifiables qui ne peuvent pas s'appliquer
 au même code — est exactement ce qu'un plan de vérification doit trancher et

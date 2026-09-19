@@ -33,7 +33,7 @@ revient toujours en entretien — *cet outil, il est qualifié ?*
 
 ### 1.1 Un standard de codage utile
 
-L'objectif **A-5.2** demande que le code soit conforme au standard. Il ne dit
+L'objectif **A-5.4** demande que le code soit conforme au standard. Il ne dit
 pas ce que le standard doit contenir : c'est au projet de l'écrire, et de le
 faire approuver.
 

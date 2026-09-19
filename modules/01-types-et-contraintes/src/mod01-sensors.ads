@@ -46,7 +46,7 @@ is
    --  La virgule fixe, et non le flottant : le pas est exact, la
    --  représentation est un entier mis à l'échelle, et le résultat ne dépend
    --  pas de l'unité de calcul. La DO-178C n'interdit pas le flottant, mais
-   --  §6.3.1.f demande de justifier la précision — ce qui est bien plus
+   --  §6.3.4.f demande de justifier la précision — ce qui est bien plus
    --  facile quand chaque valeur est un multiple exact de 0,25.
    type Litres is delta 0.25 range 0.0 .. 1_024.0;
    type Kilograms is delta 0.25 range 0.0 .. 1_024.0;

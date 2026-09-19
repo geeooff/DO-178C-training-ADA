@@ -183,7 +183,7 @@ par `gnatformat`.
 
 ## Hors périmètre, assumé
 
-Tests sur cible réelle, couverture du **code objet** (A-7.7), analyse **WCET**
+Tests sur cible réelle, couverture du **code objet** (A-7.9), analyse **WCET**
 réelle, multicœur (CAST-32A), **DO-331** (SCADE, Simulink), rédaction complète
 des plans, relation avec l'autorité de certification.
 

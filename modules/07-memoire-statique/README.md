@@ -131,9 +131,11 @@ courante. Un cycle qui déborde ne décale pas les suivants.
 ### 1.4 L'analyse de pile — ce qui reste à surveiller
 
 Sans tas, la seule mémoire qui varie à l'exécution est la **pile**. Un
-débordement y est catastrophique et silencieux. La DO-178C ne la nomme pas
-explicitement, mais §6.3.3.f — *les ressources sont suffisantes* — en dépend
-directement.
+débordement y est catastrophique et silencieux. La DO-178C la nomme
+explicitement : le §6.3.4.f — objectif A-5.6, *le code est accurate and
+consistent* — cite l'usage de la pile parmi ce que la revue du code doit
+examiner, à côté du débordement en virgule fixe et du temps d'exécution
+pire cas.
 
 `-fstack-usage` fait écrire au compilateur, pour chaque sous-programme, la
 taille de sa trame et sa nature :

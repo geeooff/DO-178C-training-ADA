@@ -195,7 +195,7 @@ correspondance à maintenir. Le `name_of()` que le dépôt frère en C++ doit
 | Objectif | Ce que le module apporte |
 |---|---|
 | **A-5.6** — le code est *accurate and consistent* | Bornes dans le type, pas dans les commentaires ; pas d'arrondi flottant à justifier |
-| **A-3.3 / A-4.3** — exigences *accurate and consistent* | Un type dérivé rend une confusion d'unité impossible à écrire |
+| **A-3.2 / A-4.2** — exigences *accurate and consistent* | Un type dérivé rend une confusion d'unité impossible à écrire |
 | **A-5.1** — le code est conforme aux exigences de bas niveau | Les aspects `Post` disent ce que les LLR demandent |
 | **§6.4.2.2** — cas de robustesse | `Decode_Sensor_Id` et `Clamp_Temperature` ont chacun leur cas hors domaine |
 

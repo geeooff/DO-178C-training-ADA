@@ -72,7 +72,7 @@ Dit une fois, clairement, plutôt que découvert en entretien :
 | Sujet | Pourquoi |
 |---|---|
 | Tests sur cible réelle | demande le matériel |
-| Couverture du **code objet** (A-7.7) | demande un émulateur ou une sonde |
+| Couverture du **code objet** (A-7.9) | demande un émulateur ou une sonde |
 | Analyse **WCET** réelle | demande la cible et son cache |
 | Multicœur, CAST-32A | hors périmètre d'un dépôt d'apprentissage |
 | DO-331 (SCADE, Simulink) | cité au module 05, non traité |

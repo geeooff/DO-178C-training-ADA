@@ -42,7 +42,7 @@ Quatre raisons de s'en priver quand même :
    A-7.6).
 2. **Du code objet sans équivalent source.** Le déroulement de pile et les
    tables d'exception sont générés par le compilateur. C'est le sujet du
-   module 02, et l'objectif A-7.7 au DAL A.
+   module 02, et l'objectif A-7.9 au DAL A.
 3. **Un temps d'exécution non borné.** Le coût d'une propagation dépend de la
    profondeur de pile et des tables parcourues. Une analyse WCET honnête doit
    soit le borner, soit exclure le mécanisme.

@@ -1,7 +1,7 @@
 # Standard de codage Ada / SPARK
 
 > **Document** : *Software Code Standards*, DO-178C §11.8
-> **Objectif visé** : A-5.2 — *le code source est conforme au standard*
+> **Objectif visé** : A-5.4 — *le code source est conforme au standard*
 > **Version** : 1.0
 > **Statut de configuration** : CC2
 

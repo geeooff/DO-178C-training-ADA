@@ -18,7 +18,7 @@ is
       --
       --  Le résultat est tronqué au pas de Kilograms, soit 0,25 kg :
       --  100 L x 0,804 = 80,4 kg devient 80,25 kg. Une troncature n'est pas
-      --  un défaut tant qu'elle est SPÉCIFIÉE ; c'est la DO-178C §6.3.1.f
+      --  un défaut tant qu'elle est SPÉCIFIÉE ; c'est la DO-178C §6.3.4.f
       --  (« accuracy ») qui demande de la justifier, pas de l'éviter.
       (Kilograms (Volume * Density_Jet_A1));
 

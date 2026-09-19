@@ -20,7 +20,7 @@ prix en certification.
 3. Mesurer ce qu'il coûte, en octets, plutôt que d'en discuter.
 4. Savoir les supprimer — `pragma Suppress`, `-gnatp` — et savoir ce que la
    suppression oblige à démontrer en échange.
-5. Comprendre l'objectif **A-7.7** (couverture du code objet, DAL A) et
+5. Comprendre l'objectif **A-7.9** (couverture du code objet, DAL A) et
    pourquoi il n'existe qu'à ce niveau.
 
 ---
@@ -158,9 +158,9 @@ modules 04 et 05 : `gnatprove` démontre l'absence d'erreur à l'exécution
 (AoRTE), ce qui transforme `pragma Suppress` d'un pari en une optimisation
 justifiée.
 
-### 1.6 La couverture du code objet — objectif A-7.7
+### 1.6 La couverture du code objet — objectif A-7.9
 
-Le tableau A-7 de la DO-178C demande, **au DAL A seulement** (objectif 7),
+Le tableau A-7 de la DO-178C demande, **au DAL A seulement** (objectif 9),
 que la couverture soit démontrée sur le **code objet** lorsque le compilateur
 génère du code sans équivalent dans le source.
 
@@ -172,7 +172,7 @@ objet n'ont jamais été exercées.
 Trois réponses possibles, toutes utilisées en projet réel :
 
 1. **Supprimer les vérifications** et prouver qu'elles étaient inutiles. Le
-   code objet redevient équivalent au source ; l'objectif A-7.7 tombe.
+   code objet redevient équivalent au source ; l'objectif A-7.9 tombe.
 2. **Mesurer sur le code objet.** GNATcoverage sait analyser des traces
    d'exécution binaire, pas seulement instrumenter le source.
 3. **Analyser** unité par unité et justifier chaque écart. Coûteux, mais
@@ -233,7 +233,7 @@ C'est le cœur du marché que propose SPARK.
 > **« Qu'est-ce que le code objet sans équivalent source ? »**
 > Du code généré par le compilateur qui ne correspond à aucune instruction
 > écrite : contrôles de plage, contrôles d'indice, initialisations
-> implicites. Il déclenche l'objectif A-7.7 au DAL A, parce qu'une couverture
+> implicites. Il déclenche l'objectif A-7.9 au DAL A, parce qu'une couverture
 > mesurée sur le source ne dit rien de ces branches-là. `-gnatG` permet de le
 > voir sans deviner.
 

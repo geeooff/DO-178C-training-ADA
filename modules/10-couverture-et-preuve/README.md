@@ -162,7 +162,8 @@ atteindre 11 sur 11.
 
 Autrement dit : **une preuve complète ne dit rien de ce que les tests ont
 exercé sur le binaire.** C'est pourquoi la DO-333 n'autorise pas à créditer
-A-7.5 sans démontrer par ailleurs la complétude des propriétés (FM.6.7.1).
+la couverture structurelle (A-7.5 à A-7.7) sans démontrer par ailleurs la
+complétude des propriétés (FM.6.7.1).
 
 ### 1.7 Quand les deux outils se gênent
 
@@ -191,7 +192,7 @@ GNATcoverage sait faire les deux, et le choix n'est pas neutre :
 |---|---|---|
 | Ce qui est mesuré | le **source** | le **code objet** |
 | Ce qu'il faut | rien de spécial | émulateur ou sonde matérielle |
-| Objectif A-7.8 (DAL A) | ne le couvre pas | le couvre |
+| Objectif A-7.9 (DAL A) | ne le couvre pas | le couvre |
 | Effet sur le code | le modifie (voir §1.7) | aucun |
 
 Ce dépôt fait de l'instrumentation de source : c'est ce qui tourne sans cible.
