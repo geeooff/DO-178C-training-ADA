@@ -26,9 +26,9 @@
 #      alr search gnatprove --full
 #
 #  Dependabot suit en revanche l'image de base `ubuntu:26.04` du Dockerfile.
-#  Une proposition de passer à une version non LTS est à REFUSER : le choix de
-#  26.04 est documenté dans le CLAUDE.md et aligné sur le poste de
-#  développement.
+#  Une proposition de passer à une version non LTS est à REFUSER : 26.04 est
+#  une LTS, maintenue jusqu'en 2031, et un SECI ne change de socle que pour
+#  la LTS suivante — après avoir rejoué toute la vérification dessus.
 # =============================================================================
 version: 2
 

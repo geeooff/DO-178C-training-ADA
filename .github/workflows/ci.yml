@@ -17,10 +17,12 @@
 #  Dockerfile ne change pas — et quand il change, c'est justement qu'il faut
 #  la reconstruire.
 #
-#  RÉSERVE : `ubuntu-26.04` est une image de runner en PRÉVERSION chez GitHub.
-#  Une image beta peut évoluer sans préavis, ce qu'un SECI cherche à éviter.
-#  L'exposition est ici minime — le runner ne fournit que Docker, toute la
-#  chaîne Ada venant de l'image épinglée.
+#  RÉSERVE : `ubuntu-26.04` était une image de runner en préversion chez
+#  GitHub à la création de ce dépôt (août 2026) ; elle est en disponibilité
+#  générale depuis. La réserve de fond demeure : une image de runner évolue
+#  à chaque mise à jour, sans épinglage possible, ce qu'un SECI cherche à
+#  éviter. L'exposition est ici minime — le runner ne fournit que Docker,
+#  toute la chaîne Ada venant de l'image épinglée.
 #
 #  ACTIONS ÉPINGLÉES PAR SHA, PAS PAR ÉTIQUETTE
 #  --------------------------------------------
