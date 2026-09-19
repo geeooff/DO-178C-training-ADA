@@ -15,7 +15,7 @@ censé les posséder.
 |---|---|---|
 | DO-178C / ED-12C | RTCA / EUROCAE | quelques centaines d'euros |
 | DO-330, DO-331, DO-332, DO-333 | RTCA / EUROCAE | idem, chacun |
-| ARP4754A, ARP4761 | SAE | idem |
+| ARP4754B, ARP4761A (révisions de 2023 ; on lit encore souvent 4754A et 4761) | SAE | idem |
 
 **Ce qui est gratuit et utile** : les *position papers* du **CAST**
 (*Certification Authorities Software Team*), publiés par la FAA. Trois à
@@ -44,8 +44,11 @@ et l'AMC 20-193 de l'EASA, qu'il faut citer aujourd'hui).
 - **John McCormick, Frank Singhoff, Jérôme Hugues, *Building Parallel,
   Embedded, and Real-Time Applications with Ada*** — le livre à lire pour
   Ravenscar et le temps réel.
-- **AdaCore, *Implementation Guidance for Safety-Critical Ada*** — court, et
-  directement utile.
+- **AdaCore et Thales, *Implementation Guidance for the Adoption of
+  SPARK*** — gratuit, court, et directement utile : il définit cinq paliers
+  d'adoption (Stone, Bronze, Silver, Gold, Platinum) et décrit comment Thales
+  introduit la preuve sur des projets opérationnels. À lire avant un entretien
+  chez un donneur d'ordre français.
 
 ### En ligne
 

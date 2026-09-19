@@ -10,12 +10,12 @@
 
 | Terme | Ce que c'est |
 |---|---|
-| **DO-178C** / ED-12C | *Software Considerations in Airborne Systems*. La norme. Décrit des **objectifs**, pas une méthode. |
+| **DO-178C** / ED-12C | *Software Considerations in Airborne Systems and Equipment Certification*. La norme. Décrit des **objectifs**, pas une méthode. |
 | **DO-330** | Supplément *Tool Qualification*. Quand et comment qualifier un outil. |
 | **DO-331** | Supplément *Model-Based Development* — SCADE, Simulink. |
 | **DO-332** | Supplément *Object-Oriented Technology*. Voir [module 08](../modules/08-objet-do332/). |
 | **DO-333** | Supplément *Formal Methods*. Voir [module 05](../modules/05-spark-preuve-do333/). |
-| **ARP4754A / ARP4761** | Processus et analyse de sécurité au niveau **système**, en amont de la DO-178C. C'est de là que vient le DAL. |
+| **ARP4754B / ARP4761A** | Processus et analyse de sécurité au niveau **système**, en amont de la DO-178C (révisions de 2023 ; les éditions A et initiale restent couramment citées). C'est de là que vient le DAL. |
 | **CAST** | *Certification Authorities Software Team*. Publie des *position papers* qui font jurisprudence. CAST-6 (MC/DC masqué), CAST-10 (ce qu'est une décision), CAST-32A (multicœur, repris depuis par l'AC 20-193 et l'AMC 20-193). |
 
 ## 2. Données de vie du logiciel
