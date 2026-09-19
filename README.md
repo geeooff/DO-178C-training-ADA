@@ -1,5 +1,7 @@
 # DO-178C — auto-formation Ada / SPARK
 
+[![CI](https://github.com/geeooff/DO-178C-training-ADA/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/geeooff/DO-178C-training-ADA/actions/workflows/ci.yml)
+
 Support d'auto-formation d'un développeur **C#** à **Ada / SPARK** et à
 l'impact de la **DO-178C** sur la façon de développer. Ce n'est pas un
 produit : c'est un cours qu'on peut compiler, exécuter, prouver et mesurer.
