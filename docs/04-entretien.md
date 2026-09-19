@@ -57,9 +57,11 @@ Ils viennent tous d'une exécution, pas d'une estimation.
 > La question n'est jamais « l'outil est-il bon » mais « son résultat
 > élimine-t-il, réduit-il ou automatise-t-il une activité que la norme
 > exige ». Si oui, on regarde le critère DO-330 puis on croise avec le DAL
-> pour obtenir le TQL. Exemple concret : GNATcoverage, si son rapport remplace
-> une revue, est critère 2 — et AdaCore vend un **kit de qualification DO-330
-> réel** pour cet outil. `clang-tidy` n'est qualifié pour rien.
+> pour obtenir le TQL. Exemple concret : GNATcoverage automatise l'analyse de
+> couverture et rien d'autre — critère 3, TQL-5 à tout DAL, et AdaCore vend un
+> **kit de qualification DO-330 réel** à ce niveau pour cet outil. La preuve
+> SPARK qui remplace des tests réduit une *autre* activité : critère 2, TQL-4
+> au DAL B. `clang-tidy` n'est qualifié pour rien.
 
 ---
 

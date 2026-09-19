@@ -114,8 +114,8 @@ trois **critères** :
 | Critère | L'outil… | Exemple |
 |---|---|---|
 | **1** | produit du code embarqué **et** son erreur peut introduire un défaut | générateur de code, compilateur dont on ne vérifie pas la sortie |
-| **2** | vérifie, **et** son résultat permet de réduire une autre activité | outil de couverture dont le résultat remplace une revue |
-| **3** | vérifie, sans réduire aucune autre activité | analyseur utilisé en complément |
+| **2** | vérifie, **et** son résultat sert à réduire ou supprimer une **autre** activité que celle qu'il automatise | prouveur dont les résultats remplacent des tests |
+| **3** | vérifie, dans son périmètre, sans réduire d'autre activité | outil de couverture dont le rapport tient lieu d'analyse de couverture |
 
 Le critère se croise ensuite avec le DAL pour donner le **TQL** :
 
@@ -137,8 +137,8 @@ leur vérification.
 | `gnatformat` | 3 | non — il **vérifie** en CI, il ne corrige pas |
 | `tools/trace_check.py` | 3 | non — complète la revue manuelle |
 | `tools/config_index.py` | — | non — produit une donnée, relue |
-| `gnatprove` | **2** | **oui, si** la preuve remplace un objectif de test (DO-333) |
-| `gnatcov` | **2** | **oui, si** le résultat remplace une revue de couverture |
+| `gnatprove` | **2** | **oui, si** la preuve remplace des tests (DO-333) : TQL-4 au DAL B |
+| `gnatcov` | **3** | **oui** : son rapport tient lieu d'analyse de couverture, TQL-5 à tout DAL |
 
 Les deux derniers sont le vrai sujet. Et c'est là qu'Ada a un avantage
 concret : **GNATcoverage dispose d'un kit de qualification DO-330 réel**,
@@ -250,11 +250,14 @@ se relit et se met à jour sans la lourdeur d'une approbation formelle.
 > pour obtenir le TQL.
 
 > **« Un exemple concret ? »**
-> GNATcoverage. Si le rapport de couverture remplace une revue, c'est critère
-> 2, donc TQL-5 au DAL C, TQL-4 au DAL A. AdaCore vend un kit de qualification
-> DO-330 réel pour cet outil, avec ses exigences opérationnelles et ses tests.
-> C'est un argument concret en faveur de la chaîne Ada : `clang-tidy` n'est
-> qualifié pour rien.
+> GNATcoverage. Son rapport tient lieu d'analyse de couverture structurelle :
+> c'est l'activité même qu'il automatise, et rien d'autre — critère 3, donc
+> TQL-5 quel que soit le DAL. C'est précisément le niveau du kit de
+> qualification DO-330 qu'AdaCore vend pour cet outil, avec ses exigences
+> opérationnelles et ses tests. À l'inverse, si la preuve SPARK sert à
+> supprimer des tests de robustesse, elle réduit une activité *autre* que
+> celle de l'outil : critère 2, TQL-4 au DAL B. C'est un argument concret en
+> faveur de la chaîne Ada : `clang-tidy` n'est qualifié pour rien.
 
 > **« Qu'est-ce qu'un SECI et pourquoi CC1 ? »**
 > C'est l'identification exacte de l'environnement qui a produit le binaire :

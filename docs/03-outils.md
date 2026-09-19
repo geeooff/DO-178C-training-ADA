@@ -13,8 +13,8 @@
 |---|---|---|---|
 | GNAT (`gnat_native`) | 16.1.0 | compilateur Ada 2022 | critère 1 si la sortie n'est pas vérifiée |
 | `gprbuild` | 26.0.1 | construction | — |
-| `gnatprove` | 16.1.0 | preuve SPARK | **TQL-5 si la preuve remplace un test** |
-| `gnatcov` | 26.2.1 | couverture, jusqu'au MC/DC | **TQL-5 si le résultat remplace une revue** |
+| `gnatprove` | 16.1.0 | preuve SPARK | **critère 2 si la preuve remplace des tests : TQL-4 au DAL B** |
+| `gnatcov` | 26.2.1 | couverture, jusqu'au MC/DC | **critère 3 : TQL-5, le niveau du kit AdaCore** |
 | `gnatformat` | 26.0.0 | formatage | non requise — il vérifie, il ne corrige pas en CI |
 | Alire (`alr`) | 2.1.1 | installation de la chaîne | — |
 | `tools/trace_check.py` | — | matrice de traçabilité | non requise — complète la revue |
