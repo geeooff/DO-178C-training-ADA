@@ -161,10 +161,13 @@ mesurable.
 
 Deux différences qui comptent :
 
-- **Le dispatching est visible dans le type.** `Instrument` est un type
+- **Le dispatching est visible au site d'appel.** `Instrument` est un type
   ordinaire (appel statique), `Instrument'Class` accepte n'importe quelle
-  extension (appel dispatchant). En C#, tout est potentiellement virtuel sans
-  que la signature le dise.
+  extension (appel dispatchant). En C#, la méthode dit si elle est `virtual`,
+  mais l'appel `capteur.Lire()` ne dit pas s'il dispatche : cela dépend de
+  la déclaration, pas de ce qu'on lit. En Ada, c'est le type de l'objet au
+  site d'appel qui le dit — et c'est ce site que la DO-332 demande de couvrir
+  pour chaque cible possible.
 - **`Pre'Class` et `Post'Class` transforment Liskov en obligation de preuve.**
   C'est ce que la DO-332 appelle la *cohérence locale de type*, et ce qu'il
   faudrait sinon re-tester extension par extension. Voir
