@@ -18,8 +18,10 @@ censé les posséder.
 | ARP4754A, ARP4761 | SAE | idem |
 
 **Ce qui est gratuit et utile** : les *position papers* du **CAST**
-(*Certification Authorities Software Team*), publiés par la FAA. CAST-10 sur
-le MC/DC et CAST-32A sur le multicœur sont les deux à connaître.
+(*Certification Authorities Software Team*), publiés par la FAA. Trois à
+connaître : CAST-6 (le MC/DC masqué), CAST-10 (ce qu'est une décision) et
+CAST-32A (le multicœur — repris et remplacé depuis par l'AC 20-193 de la FAA
+et l'AMC 20-193 de l'EASA, qu'il faut citer aujourd'hui).
 
 ---
 

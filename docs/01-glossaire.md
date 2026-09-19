@@ -16,7 +16,7 @@
 | **DO-332** | Supplément *Object-Oriented Technology*. Voir [module 08](../modules/08-objet-do332/). |
 | **DO-333** | Supplément *Formal Methods*. Voir [module 05](../modules/05-spark-preuve-do333/). |
 | **ARP4754A / ARP4761** | Processus et analyse de sécurité au niveau **système**, en amont de la DO-178C. C'est de là que vient le DAL. |
-| **CAST** | *Certification Authorities Software Team*. Publie des *position papers* qui font jurisprudence. CAST-10 (MC/DC), CAST-32A (multicœur). |
+| **CAST** | *Certification Authorities Software Team*. Publie des *position papers* qui font jurisprudence. CAST-6 (MC/DC masqué), CAST-10 (ce qu'est une décision), CAST-32A (multicœur, repris depuis par l'AC 20-193 et l'AMC 20-193). |
 
 ## 2. Données de vie du logiciel
 
@@ -58,7 +58,7 @@ Voir [module 11](../modules/11-standards-qualification/) et
 | **Couverture d'instructions** | Chaque ligne exécutée au moins une fois. DAL C. |
 | **Couverture de décisions** | Chaque test booléen a pris ses deux valeurs. DAL B. |
 | **MC/DC** | *Modified Condition/Decision Coverage*. Chaque **condition** a démontré qu'elle pouvait, seule, faire basculer sa décision. DAL A. |
-| **MC/DC masqué** | Variante admise (CAST-10) où une condition non évaluée par court-circuit est considérée masquée. Sans elle, MC/DC serait inatteignable sur `and then` / `or else`. |
+| **MC/DC masqué** | Variante admise en certification (CAST-6) où une condition qui ne peut pas influencer le résultat — par exemple non évaluée après un court-circuit — est considérée masquée, pas non couverte. C'est ce qui rend MC/DC praticable sur `and then` / `or else`. |
 | **Code objet sans équivalent source** | Code généré par le compilateur qui ne correspond à aucune instruction écrite. Déclenche A-7.9 au DAL A. Voir [module 02](../modules/02-verifications-execution/). |
 | **Code mort** (*dead*) | Rien ne le justifie. Il part. |
 | **Code désactivé** (*deactivated*) | Prévu, tracé à une exigence, inactif dans cette configuration. Il reste et se justifie. |

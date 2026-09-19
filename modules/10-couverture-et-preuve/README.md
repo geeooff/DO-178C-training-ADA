@@ -86,11 +86,14 @@ composant expose `Condition_Count` : une revue de couverture sans point de
 comparaison se réduit à faire confiance à l'outil.
 
 > **Note sur le court-circuit.** `or else` et `and then` court-circuitent.
-> GNATcoverage applique alors le **MC/DC masqué** (*masking MC/DC*), qui est la
-> variante admise par la CAST-10 et par les outils qualifiés : une condition
-> non évaluée est considérée comme masquée, pas comme non couverte. Sans cela,
-> MC/DC serait inatteignable sur toute expression court-circuitée — c'est-à-dire
-> sur la quasi-totalité du code Ada.
+> GNATcoverage applique alors le **MC/DC masqué** (*masking MC/DC*), variante
+> que la CAST-6 déclare acceptable en certification et que les outils
+> qualifiés mettent en œuvre : une condition qui ne peut pas influencer le
+> résultat — non évaluée après un court-circuit — est considérée comme
+> masquée, pas comme non couverte. C'est ce qui rend MC/DC praticable sur du
+> code Ada, où presque toute expression booléenne court-circuite. La CAST-10,
+> elle, fixe ce qu'est une *décision* : toute expression booléenne à
+> opérateurs, y compris dans une affectation, pas seulement dans un `if`.
 
 ### 1.4 À quoi sert vraiment la couverture structurelle
 
