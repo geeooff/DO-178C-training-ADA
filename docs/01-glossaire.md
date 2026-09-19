@@ -63,7 +63,7 @@ Voir [module 11](../modules/11-standards-qualification/) et
 | **Code mort** (*dead*) | Rien ne le justifie. Il part. |
 | **Code désactivé** (*deactivated*) | Prévu, tracé à une exigence, inactif dans cette configuration. Il reste et se justifie. |
 | **Couplage de données / de contrôle** | A-7.8. Quelles données circulent entre composants, qui appelle qui. En SPARK : `Global` et `Depends`. |
-| **Indépendance** | Le vérificateur n'est pas l'auteur. Exigée sur 18 objectifs au DAL B, davantage au DAL A. |
+| **Indépendance** | Le vérificateur n'est pas l'auteur. Exigée sur une vingtaine des 69 objectifs du DAL B et une trentaine des 71 du DAL A — le décompte exact varie d'une source à l'autre, ne pas l'affirmer à l'unité. |
 
 ## 6. Ada
 
