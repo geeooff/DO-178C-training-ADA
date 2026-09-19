@@ -34,7 +34,7 @@ structurelle, couplage données/contrôle, gestion de configuration et qualité
 Python. Environ **35 %** du travail du dépôt C++ est transférable sans
 modification.
 
-### La tension à trancher en début de projet
+### La tension tranchée en début de projet
 
 Deux contraintes tirent en sens inverse :
 
@@ -44,7 +44,8 @@ Deux contraintes tirent en sens inverse :
 **Recommandation :** traiter les modules de processus de façon **autonome mais
 condensée** — l'objectif DO-178C, sa mise en œuvre en Ada, et un renvoi
 explicite vers le module C++ correspondant pour le traitement long. Ne jamais
-supposer le C++ connu. Décision à confirmer à la première session.
+supposer le C++ connu. **Tranchée en ce sens** — voir la décision 2, en fin
+de fichier.
 
 ## Le marché visé
 
@@ -272,7 +273,7 @@ dans un support de formation.
   expliquant le **pourquoi** et le prix payé.
 - **Un sujet par commit** : `git blame` doit rester exploitable.
 - Adresse d'auteur : l'adresse *noreply* GitHub
-  (`10533139+geeooff@users.noreply.github.com`), déjà configurée globalement.
+  (`10533139+geeooff@users.noreply.github.com`).
 - Ne rien pousser sans demande explicite.
 
 ## État du dépôt — 2026-08-28
