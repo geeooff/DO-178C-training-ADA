@@ -49,21 +49,17 @@ de fichier.
 
 ## Le marché visé
 
-Donneurs d'ordre de l'aviation **française**. Ada y est un vrai
-différenciateur, plus qu'aux États-Unis, et les candidats sont plus rares.
+Donneurs d'ordre de l'aviation **française** — Thales, Safran, Dassault
+Aviation, Airbus, ATR, MBDA, ArianeGroup — où Ada reste un différenciateur.
 
-| Acteur | Usage d'Ada, en pratique |
-|---|---|
-| **Thales** | Avionique et contrôle aérien — usage établi |
-| **Safran** | Contrôle moteur (FADEC) — usage établi |
-| **Dassault Aviation** | Rafale, Falcon — usage établi |
-| **Airbus** | Historique fort (A340, A380). Une grande part du logiciel de commandes de vol récent est du **C généré par SCADE** (DO-331), pas de l'Ada écrit à la main |
-| **ATR** | Surtout intégrateur : l'avionique vient des équipementiers. Peu d'Ada écrit en interne |
-| MBDA, ArianeGroup | Usage établi (défense, spatial) |
-
-À vérifier et à actualiser sur les offres d'emploi réelles plutôt qu'à tenir
-pour acquis — c'est aussi ce qui dira si l'effort doit porter sur Ada ou
-plutôt sur SCADE / DO-331.
+**Ne rien affirmer sur leurs pratiques internes sans source.** Ce qui est
+public tient en deux lignes : AdaCore cite Thales comme utilisateur de GNAT
+Pro et co-signe avec lui le guide d'adoption de SPARK ; l'usage de SCADE
+(DO-331) sur les commandes de vol Airbus est documenté par l'éditeur et par
+Airbus. Le reste — qui écrit de l'Ada à la main, et où — se lit sur les
+offres d'emploi, et nulle part ailleurs. `docs/05-ressources.md` §4 donne
+la méthode ; ce sont les offres qui diront si l'effort doit porter sur Ada
+ou sur SCADE / DO-331.
 
 ## La différence pédagogique avec le dépôt C++
 

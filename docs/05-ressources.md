@@ -74,21 +74,21 @@ et l'AMC 20-193 de l'EASA, qu'il faut citer aujourd'hui).
 ## 4. Le marché français
 
 Ce dépôt vise les donneurs d'ordre de l'aviation **française**, où Ada reste
-un vrai différenciateur — davantage qu'aux États-Unis, et avec moins de
-candidats.
+un différenciateur. Ce qu'un document comme celui-ci peut **affirmer** sur
+les pratiques internes de ces entreprises est mince, et il vaut mieux le
+dire que broder — surtout devant leurs propres recruteurs.
 
-| Acteur | Usage d'Ada, en pratique |
-|---|---|
-| **Thales** | avionique et contrôle aérien — usage établi |
-| **Safran** | contrôle moteur (FADEC) — usage établi |
-| **Dassault Aviation** | Rafale, Falcon — usage établi |
-| **Airbus** | historique fort (A340, A380). Une grande part du logiciel de commandes de vol récent est du **C généré par SCADE** (DO-331), pas de l'Ada écrit à la main |
-| **ATR** | surtout intégrateur : l'avionique vient des équipementiers. Peu d'Ada écrit en interne |
-| **MBDA, ArianeGroup** | usage établi (défense, spatial) |
+| Acteur | Ce qui est public | Ce que seules les offres diront |
+|---|---|---|
+| **Thales** | AdaCore le cite comme utilisateur de GNAT Pro en avionique critique, et co-signe avec lui le guide d'adoption de SPARK (§2) | quelles entités recrutent en Ada, lesquelles en C ou en SCADE |
+| **Airbus** | l'usage de SCADE et de son générateur qualifié (DO-331) sur les commandes de vol est documenté par l'éditeur et par des publications d'Airbus | la part d'Ada écrit à la main dans les offres récentes |
+| **Safran, Dassault Aviation, MBDA, ArianeGroup** | une réputation d'usage d'Ada — moteur, avion de combat, missile, lanceur — **non sourcée ici** | les offres elles-mêmes : c'est la seule source qui compte |
+| **ATR** | un intégrateur, dont l'avionique vient d'équipementiers | ce qui est développé en interne, s'il y a des offres logicielles |
 
-> **À vérifier plutôt qu'à croire.** Ce tableau reflète une situation
-> générale ; les offres d'emploi réelles disent mieux si l'effort doit porter
-> sur Ada ou plutôt sur **SCADE / DO-331**. Le relire tous les six mois.
+**La méthode vaut plus que le tableau.** Sur chaque site carrière, chercher
+`Ada`, `SPARK`, `SCADE`, `DO-178` ; compter ; lire la formulation exacte
+des prérequis. Refaire l'exercice tous les six mois : c'est lui, et non ce
+tableau, qui dit si l'effort doit porter sur Ada ou sur **SCADE / DO-331**.
 
 ---
 
