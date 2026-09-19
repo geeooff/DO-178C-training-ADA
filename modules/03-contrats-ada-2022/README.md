@@ -182,8 +182,11 @@ faire.
 
 En pratique, les projets qui font ce choix rédigent les contrats **à partir**
 des LLR, dans un ordre qui préserve l'indépendance, et l'écrivent dans leur
-plan de développement logiciel. C'est admissible, et c'est explicitement
-prévu par la DO-333 §MB.6.3.
+plan de développement logiciel. C'est admissible : la DO-333 prévoit
+explicitement qu'une exigence, de haut ou de bas niveau, soit exprimée en
+notation formelle (chapitre FM.5, processus de développement), à condition
+que la notation ait une sémantique définie sans ambiguïté — ce qui est le
+cas des aspects Ada 2022 tels que SPARK les interprète.
 
 ---
 
