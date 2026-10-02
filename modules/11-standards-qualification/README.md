@@ -153,6 +153,10 @@ rien. Le sujet passe du concept à l'artefact commercial.
 
 ### 1.4 SCI et SECI
 
+Le [module 00](../00-environnement/) définit le SECI et explique pourquoi ce
+dépôt en fait une image épinglée ; cette section-ci les reprend sous l'angle
+de la gestion de configuration.
+
 Deux documents du §11, sous le contrôle de configuration le plus strict —
 **CC1** — à tous les niveaux pour le SCI, aux niveaux A à C pour le SECI
 (table A-8 ; CC2 au niveau D) :
@@ -281,10 +285,8 @@ se relit et se met à jour sans la lourdeur d'une approbation formelle.
 > faveur de la chaîne Ada : `clang-tidy` n'est qualifié pour rien.
 
 > **« Qu'est-ce qu'un SECI et pourquoi CC1 ? »**
-> C'est l'identification exacte de l'environnement qui a produit le binaire :
-> compilateur, version, options, outils. CC1 aux niveaux A à C — CC2 au
-> niveau D, d'après la table A-8 — parce qu'un logiciel qu'on ne sait pas
-> reconstruire à l'identique n'est pas certifiable. Le SCI, lui, est CC1 à
-> tous les niveaux. Sur mon dépôt, le SECI est généré depuis les versions épinglées du
-> Dockerfile et rapproché de la machine — un écart est signalé plutôt que
-> lissé.
+> L'identification exacte de l'environnement qui a produit le binaire. CC1
+> aux niveaux A à C ; au niveau D, la table A-8 l'allège en CC2. Le SCI, lui,
+> est CC1 à tous les niveaux. La réponse de référence, avec ce que mon outil
+> compare et ne compare pas, est dans la
+> [fiche d'entretien](../../docs/04-entretien.md).

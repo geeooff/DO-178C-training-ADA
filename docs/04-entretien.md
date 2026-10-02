@@ -64,6 +64,20 @@ Ils viennent tous d'une exécution, pas d'une estimation.
 > SPARK qui remplace des tests réduit une *autre* activité : critère 2, TQL-4
 > au DAL B. `clang-tidy` n'est qualifié pour rien.
 
+> **« Qu'est-ce qu'un SECI, et le vôtre est-il à jour ? »**
+> L'index de configuration de l'environnement du cycle de vie, §11.15 : ce
+> qui a produit et vérifié le logiciel — compilateur, version, options,
+> outils, système hôte. CC1 jusqu'au DAL C ; au niveau D, la table A-8
+> l'allège en CC2, l'enjeu ne justifiant plus l'approbation formelle de
+> chaque version. Sur mon dépôt, c'est un Dockerfile, et le document est
+> régénéré à chaque CI par un outil qui confronte les versions déclarées aux
+> versions présentes : un écart de version majeure ou mineure y est écrit en
+> toutes lettres — pas un écart de correctif, et je sais dire pourquoi. J'y
+> ai appris qu'une étiquette d'image n'est pas une version : la CI a construit
+> sur trois images `ubuntu:26.04` différentes en cinq semaines sans que mon
+> dépôt change, et l'image de base est depuis désignée par son digest. Voir
+> le [module 00](../modules/00-environnement/).
+
 ---
 
 ## 3. Sur Ada et SPARK
