@@ -4,8 +4,19 @@
 # logiciel a été construit et vérifié. Un fichier qui l'affirme se périme ;
 # une image qui le reconstruit se vérifie. D'où ce Dockerfile.
 #
-# Toute version ci-dessous est épinglée. En changer une est une modification
-# de configuration, qui se commite seule et se justifie.
+# L'image de base, Alire et la chaîne Ada sont épinglés ci-dessous. En
+# changer un est une modification de configuration, qui se commite seule et
+# se justifie.
+#
+# Deux choses ne le sont PAS encore, et c'est dit ici plutôt que passé sous
+# silence. Les paquets apt suivent l'archive Ubuntu au moment d'une
+# construction à froid : entre le 19 septembre et le 2 octobre 2026, curl,
+# openssl, sudo et quatre autres ont changé de version sans que ce fichier
+# change, et apt a mis à jour deux paquets de l'image de base elle-même.
+# python3, qui exécute l'outil de traçabilité, est installé de la même
+# façon : il n'a pas bougé cette fois, rien ne l'en empêche la prochaine.
+# Et l'archive d'Alire est téléchargée sans contrôle d'empreinte. Voir
+# docs/03-outils.md.
 # ---------------------------------------------------------------------------
 
 # L'image de base est épinglée par DIGEST — l'empreinte SHA-256 de l'image —

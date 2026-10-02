@@ -24,7 +24,8 @@ le produit n'est ni identifiable ni reproductible.
 CE QUE CET OUTIL FAIT DE PARTICULIER ICI
 ----------------------------------------
 Le SECI de ce depot n'est pas une liste que l'on tient a jour : c'est
-.devcontainer/Dockerfile, ou chaque version est epinglee. L'outil lit donc les
+.devcontainer/Dockerfile, ou la chaine Ada et l'image de base sont epinglees
+(les paquets apt ne le sont pas encore). L'outil lit donc les
 ARG de ce fichier EN PLUS d'interroger les outils presents sur la machine, et
 il RAPPROCHE les deux. Un ecart entre la version epinglee et la version
 detectee est signale : c'est exactement le defaut qu'un SECI doit empecher.
@@ -340,6 +341,12 @@ def build_seci(root: Path) -> str:
         out.extend(f"- `{image}`" for image in images)
         if not images:
             out.append("- (aucune ligne FROM trouvée)")
+    out.append("")
+    out.append("Non épinglés à ce jour, et dits ici plutôt que passés sous")
+    out.append("silence : les **paquets apt**, qui suivent l'archive Ubuntu au")
+    out.append("moment d'une construction à froid, et l'**archive d'Alire**,")
+    out.append("téléchargée sans contrôle d'empreinte. Voir")
+    out.append("[`docs/03-outils.md`](../docs/03-outils.md) §5.")
     out.append("")
     sans_digest = [image for image in images if "@sha256:" not in image]
     if sans_digest or not images:

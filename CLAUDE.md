@@ -355,6 +355,12 @@ par outil, chaque chiffre du README recompté depuis un journal d'exécution.
   sur des offres réelles.
 - Les versions des crates Alire du Dockerfile ne sont suivies par personne :
   point de revue manuel, à faire à chaque proposition Dependabot.
+- **Paquets apt et archive Alire non épinglés.** Sept paquets ont changé de
+  version entre les constructions du 19 septembre et du 2 octobre 2026.
+  Correction prévue, dans une branche dédiée : `apt-get update --snapshot`
+  (snapshot.ubuntu.com) et `sha256sum -c` sur l'archive d'Alire, puis
+  vérification complète. D'ici là, le dépôt dit « chaîne Ada et image de
+  base épinglées », jamais « toutes les versions ».
 
 ## Décisions arrêtées — 2026-08-28
 

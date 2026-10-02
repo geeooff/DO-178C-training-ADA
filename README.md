@@ -110,9 +110,11 @@ Aucun n'est une estimation, et chacun se rejoue d'une commande.
 
 ## Chaîne d'outils
 
-Toutes les versions sont épinglées dans
+La chaîne Ada et l'image de base sont épinglées dans
 [`.devcontainer/Dockerfile`](.devcontainer/Dockerfile), qui tient lieu de
-**SECI** exécutable (DO-178C §11.15).
+**SECI** exécutable (DO-178C §11.15). Les paquets système installés par
+`apt` ne le sont pas encore : [`docs/03-outils.md`](docs/03-outils.md) dit
+ce que cela laisse dériver.
 
 | Outil | Version | Rôle |
 |---|---|---|

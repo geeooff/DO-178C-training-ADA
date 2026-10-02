@@ -174,8 +174,10 @@ dit en toutes lettres — **« OUI — NON BASELINABLE »**.
 
 **Ce que cet outil fait de particulier ici.** Le SECI de ce dépôt n'est pas
 une liste qu'on tient à jour : c'est
-[`.devcontainer/Dockerfile`](../../.devcontainer/Dockerfile), où chaque
-version est épinglée — l'image de base comprise, par son digest. L'outil lit
+[`.devcontainer/Dockerfile`](../../.devcontainer/Dockerfile), où la chaîne
+Ada et l'image de base sont épinglées — l'image par son digest ; les paquets
+apt ne le sont pas encore, et
+[`docs/03-outils.md`](../../docs/03-outils.md) le dit. L'outil lit
 donc ses `ARG` **et** interroge les outils présents, puis rapproche les deux.
 Il lit aussi la ligne `FROM`, et signale une image de base désignée par sa
 seule étiquette : elle peut changer sans que le dépôt change.
@@ -193,8 +195,9 @@ toujours** — la comparaison porte donc sur `majeur.mineur`, et le document le
 dit. C'est exactement le genre de détail qu'un SECI doit rendre visible plutôt
 que lisser.
 
-**Ce que le SECI contient, et ce qui le construit.** L'image est épinglée ;
-les outils qui l'assemblent ne le sont pas. L'image du runner GitHub ne peut
+**Ce que le SECI contient, et ce qui le construit.** La chaîne Ada et
+l'image de base sont épinglées — les paquets apt pas encore ; les outils
+qui assemblent l'image ne le sont pas. L'image du runner GitHub ne peut
 pas l'être, buildx en vient, et BuildKit est tiré par une étiquette mouvante
 — il est passé de 0.32.2 à 0.33.1 entre deux exécutions de la CI, sans
 que rien ne change dans le dépôt. Les épingler dans le workflow créerait des

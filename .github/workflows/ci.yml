@@ -85,8 +85,9 @@ jobs:
       # vie : le journal de la CI doit dire avec quoi le résultat a été
       # obtenu, sans avoir à ouvrir le Dockerfile.
       #
-      # Deux niveaux. Ce que l'image CONTIENT est épinglé dans le Dockerfile.
-      # Ce qui la CONSTRUIT ne l'est pas : l'image du runner ne peut pas
+      # Deux niveaux. Ce que l'image CONTIENT — la chaîne Ada et son socle —
+      # est épinglé dans le Dockerfile, à l'exception des paquets apt (voir
+      # docs/03-outils.md §5). Ce qui la CONSTRUIT ne l'est pas : l'image du runner ne peut pas
       # l'être, buildx vient d'elle, et BuildKit est tiré par l'étiquette
       # mouvante `moby/buildkit:buildx-stable-1`. Entre le 19 septembre et le
       # 2 octobre 2026, BuildKit est passé de 0.32.2 à 0.33.1 sans que rien

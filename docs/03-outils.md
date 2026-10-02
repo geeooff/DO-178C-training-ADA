@@ -1,9 +1,9 @@
 # La chaîne d'outils
 
 > Ce que fait chaque outil, ce qu'il coûte, ce qu'on peut lui faire dire, et
-> son statut DO-330. Toutes les versions sont épinglées dans
+> son statut DO-330. La chaîne Ada et l'image de base sont épinglées dans
 > [`.devcontainer/Dockerfile`](../.devcontainer/Dockerfile), **qui est le
-> SECI de ce dépôt**.
+> SECI de ce dépôt** — les paquets apt ne le sont pas encore (§5).
 
 ---
 
@@ -21,8 +21,10 @@
 | `tools/trace_check.py` | — | matrice de traçabilité | non requise — complète la revue |
 | `tools/config_index.py` | — | SCI et SECI | non requise — produit une donnée relue |
 
-Ce tableau dit ce que l'image **contient**, et tout y est épinglé. Ce qui la
-**construit** — image du runner GitHub, buildx, BuildKit — ne l'est pas :
+Ce tableau dit ce que la chaîne d'outils **contient** : la chaîne Ada et
+l'image de base y sont épinglées, les paquets apt pas encore (§5). Ce qui
+**construit** l'image — image du runner GitHub, buildx, BuildKit — ne l'est
+pas :
 le runner ne peut pas l'être, et figer les deux autres dans le workflow
 créerait des versions que Dependabot ne suit pas. La CI les **trace** dans
 son journal et dans le SECI, à chaque exécution.
@@ -146,6 +148,30 @@ Chacun a coûté du temps une fois. Ils sont aussi dans
   serveur qui peut supprimer les propositions de digest sur une étiquette
   versionnée comme `26.04` (dependabot-core#15103) ; un nom de code en est
   exempté.
+
+### Ce que l'épinglage ne couvre pas encore
+
+Épingler l'image de base par digest fige le socle, pas ce qu'on installe
+dessus. Deux trous restent, et les dire fait partie du SECI.
+
+- **Les paquets apt.** `apt-get install` prend la version que l'archive
+  Ubuntu publie au moment de la construction. Entre les constructions du
+  19 septembre et du 2 octobre 2026, sept paquets installés ont changé de
+  version — curl `8.18.0-1ubuntu2.5` → `8.18.0-1ubuntu2.7`, openssl
+  `3.5.5-1ubuntu3.5` → `3.5.5-1ubuntu3.7`, sudo, libexpat1,
+  linux-libc-dev… — sans qu'aucune ligne du dépôt ne change. Et apt a mis
+  à jour deux paquets **de l'image de base elle-même** (libssl3t64 et
+  openssl-provider-legacy, `3.5.5-1ubuntu3.5` → `3.5.5-1ubuntu3.7`) :
+  épingler le socle par digest ne l'empêche pas d'être modifié par la
+  couche suivante. `python3`, qui exécute `trace_check.py`, est installé
+  de la même façon ; il n'a pas bougé cette fois, rien ne l'en empêche la
+  prochaine. La chaîne Ada, elle, vient d'Alire et ne bouge pas.
+- **L'archive d'Alire** est téléchargée par son numéro de version, sans
+  contrôle d'empreinte : une archive remplacée sous le même nom passerait.
+
+La correction est connue : `apt-get update --snapshot <date>`, qui fige
+l'archive Ubuntu à un instant donné, et un `sha256sum -c` sur l'archive
+d'Alire. Elle sera faite à part, avec sa propre vérification complète.
 
 ### Langage
 
