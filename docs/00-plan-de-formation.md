@@ -75,8 +75,8 @@ Dit une fois, clairement, plutôt que découvert en entretien :
 | Couverture du **code objet** (A-7.9) | demande un émulateur ou une sonde |
 | Analyse **WCET** réelle | demande la cible et son cache |
 | Multicœur, CAST-32A | hors périmètre d'un dépôt d'apprentissage |
-| DO-331 (SCADE, Simulink) | cité au module 05, non traité |
-| Rédaction complète des plans (PSAC, SDP, SVP…) | des extraits seulement |
+| DO-331 (SCADE, Simulink) | cité au module 00, non traité |
+| Rédaction des plans (PSAC, SDP, SVP…) | cités au module 00, non rédigés |
 | Relation avec l'autorité de certification | ne s'apprend pas dans un dépôt |
 
 Ces sujets sont **cités** là où ils s'insèrent, avec ce qu'il faut pour en
