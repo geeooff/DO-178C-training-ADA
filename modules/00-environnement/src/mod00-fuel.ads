@@ -17,6 +17,8 @@ is
    --  Addition saturante. La postcondition énonce *tout* le comportement :
    --  c'est elle, et non le corps, qui fait foi pour l'appelant et pour
    --  gnatprove.
+   --
+   --  @satisfies LLR-M00-001
    function Saturating_Add (Left, Right : Litres) return Litres
    with
      Post =>
