@@ -520,6 +520,26 @@ def main() -> int:
         print(f"ERREUR : {root} ne ressemble pas a la racine du depot.")
         return 2
 
+    # Sans un depot Git lisible, pas de SCI. Que git refuse le depot --
+    # typiquement un montage de conteneur dont le proprietaire n'est pas
+    # l'utilisateur courant -- ou qu'il n'y ait pas de depot du tout -- une
+    # archive ZIP telechargee --, le document dirait « 0 fichier » et « arbre
+    # de travail modifie : non » : une donnee CC1 fausse sous une apparence
+    # normale. Mieux vaut aucun document qu'un document qui ment.
+    if not run_git(root, "rev-parse", "HEAD"):
+        if (root / ".git").exists():
+            conseil = (
+                "git refuse de lire le depot. Dans un conteneur, le declarer "
+                f"sur :\n  git config --global --add safe.directory {root}"
+            )
+        else:
+            conseil = (
+                "ce n'est pas un depot Git. Un SCI identifie un etat du "
+                "depot : cloner plutot que telecharger une archive."
+            )
+        print(f"ERREUR : le SCI serait faux, {conseil}", file=sys.stderr)
+        return 3
+
     sci = build_sci(root, args.part_number, args.version)
     seci = build_seci(root)
 

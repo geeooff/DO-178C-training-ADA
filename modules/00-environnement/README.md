@@ -362,8 +362,8 @@ Dans le conteneur ouvert par VS Code (*Reopen in Container*), depuis le
 terminal intégré, à la racine du dépôt. Hors de VS Code, un `docker run`
 direct doit d'abord déclarer le dépôt monté comme sûr pour git
 dans le même conteneur que la commande — la déclaration ne survit pas à un
-`docker run --rm` —, faute de quoi le SCI régénéré aux exercices 2 et 3
-est vide :
+`docker run --rm` —, faute de quoi `config_index.py` refuse, à juste titre,
+de produire le SCI des exercices 2 et 3 :
 
 ```bash
 docker run --rm -v "$PWD:/workspace" do178c-ada:verif bash -c 'git config --global --add safe.directory /workspace && python3 tools/config_index.py'
