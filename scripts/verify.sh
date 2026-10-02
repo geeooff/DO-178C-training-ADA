@@ -12,6 +12,17 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 ETAPE="${1:-all}"
+
+#  Une étape mal orthographiée — `preuve` pour `prove` — ne doit pas
+#  produire un « sans défaut » : rien n'aurait été vérifié. Un protocole de
+#  vérification qui accepte n'importe quel argument et répond vert ment.
+case "$ETAPE" in
+   all|build|run|prove|trace|format) ;;
+   *)
+      echo "Étape inconnue : '$ETAPE'. Attendu : build, run, prove, trace, format, ou rien." >&2
+      exit 2
+      ;;
+esac
 #  Le contre-exemple du module 11 est exclu : il viole le standard À DESSEIN,
 #  et son seul point d'entrée est scripts/coding-standard.sh, qui vérifie
 #  précisément qu'il ne compile PAS sous ces commutateurs.
@@ -71,4 +82,10 @@ if [ "$ETAPE" = all ] || [ "$ETAPE" = format ]; then
    done
 fi
 
-printf '\n\033[32mVérification terminée sans défaut.\033[0m\n'
+#  Après une étape isolée, ne pas annoncer une vérification complète : seule
+#  cette étape a tourné, et le message doit le dire.
+if [ "$ETAPE" = all ]; then
+   printf '\n\033[32mVérification terminée sans défaut.\033[0m\n'
+else
+   printf '\n\033[32mÉtape %s terminée sans défaut — les autres n%sont pas tourné.\033[0m\n' "$ETAPE" "'"
+fi
