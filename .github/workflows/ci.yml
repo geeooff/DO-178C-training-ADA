@@ -12,10 +12,17 @@
 #  seule source, et la CI vérifie précisément ce que le développeur exécute
 #  sur son poste.
 #
-#  Le prix payé : la construction de l'image dure environ deux minutes à
-#  froid. Le cache GitHub Actions la ramène à quelques secondes tant que le
-#  Dockerfile ne change pas — et quand il change, c'est justement qu'il faut
-#  la reconstruire.
+#  Le prix payé : la construction de l'image dure de quatre à huit minutes à
+#  froid. Le cache GitHub Actions la ramène à environ 70 et 83 secondes —
+#  mesuré les 28 et 31 août, sept couches réutilisées — mais à trois
+#  conditions :
+#    - ni le Dockerfile ni l'image de base n'ont changé ;
+#    - une exécution a eu lieu dans les sept jours, car GitHub évince au-delà
+#      toute entrée de cache non consultée ;
+#    - la construction part de main, ou d'une branche qui a déjà construit,
+#      car une branche ne lit que son propre cache et celui de main.
+#  Au rythme de ce dépôt, la plupart des constructions sont donc à froid. Le
+#  cache est une commodité : rien dans la vérification n'en dépend.
 #
 #  RÉSERVE : `ubuntu-26.04` était une image de runner en préversion chez
 #  GitHub à la création de ce dépôt (août 2026) ; elle est en disponibilité

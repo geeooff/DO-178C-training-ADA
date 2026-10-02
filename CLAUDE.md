@@ -212,6 +212,13 @@ privilégié du conteneur.
   `26.04` ; un nom de code en est exempté, et ne glisse jamais vers une
   version non LTS. Chaque proposition de digest est un changement de SECI :
   vérification complète avant d'accepter.
+- **Le cache GHA ne survit pas au rythme de ce dépôt.** Il est évincé après
+  7 jours sans accès, et cloisonné : une branche lit son propre cache et
+  celui de main, jamais celui d'une autre branche. Vérifié le 2026-10-02 :
+  un run sur main, lancé 8 minutes après un run de la branche Dependabot
+  sur le même digest de base, a reconstruit à froid. Ne jamais présenter un
+  temps de construction comme garanti, ni attribuer une construction à
+  froid à une cause unique sans l'avoir isolée.
 - **`gnatformat` réécrit `=>+` en `=> +`**, forme que `-gnatyt` refuse
   ensuite. Deux outils de la chaîne se contredisent. Écrire la dépendance en
   toutes lettres : `Depends => (State => (State, Reading))`.
