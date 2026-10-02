@@ -42,22 +42,22 @@ Trois règles de lecture :
 | 11 | [standards et qualification](../modules/11-standards-qualification/) | 1 | la bonne question n'est pas « l'outil est-il bon » |
 | 12 | [projet intégré FQMS](../modules/12-projet-integre/) | 3 | le même système DAL B qu'en C++, mêmes exigences |
 
-**Total : environ 18 journées.**
+**Total : 17,5 journées.**
 
 ---
 
 ## Trois façons de parcourir
 
-### Parcours complet — 18 jours
+### Parcours complet — 17,5 jours
 
 Dans l'ordre. Chaque module suppose les précédents.
 
-### Parcours « langage » — 8 jours
+### Parcours « langage » — 10,5 jours
 
 Modules 00 à 08. On en sort capable d'écrire de l'Ada/SPARK correct et de
 comprendre ce que la preuve apporte. Il manque tout le processus.
 
-### Parcours « certification » — 7 jours
+### Parcours « certification » — 8 jours
 
 Modules 00, 09, 10, 11, 12. Pour quelqu'un qui connaît déjà un langage
 embarqué et veut le vocabulaire et les artefacts de la DO-178C. Le module 12
