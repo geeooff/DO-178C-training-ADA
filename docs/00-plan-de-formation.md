@@ -28,7 +28,7 @@ Trois règles de lecture :
 
 | # | Module | Journées | Ce qu'on en retire |
 |---|---|---|---|
-| 00 | [environnement](../modules/00-environnement/) | 0,5 | le SECI conteneurisé, et pourquoi il est le document §11.15 |
+| 00 | [environnement](../modules/00-environnement/) | 1 | la DO-178C en une page, et le SECI conteneurisé : pourquoi il est le document §11.15 |
 | 01 | [types et contraintes](../modules/01-types-et-contraintes/) | 1 | la borne est dans le type ; Mars Climate Orbiter |
 | 02 | [vérifications à l'exécution](../modules/02-verifications-execution/) | 1 | ce que GNAT ajoute, ce que ça coûte, ce que la suppression oblige |
 | 03 | [contrats Ada 2022](../modules/03-contrats-ada-2022/) | 1 | le contrat remplace la défense |

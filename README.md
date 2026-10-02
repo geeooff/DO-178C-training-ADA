@@ -76,7 +76,7 @@ formatage. Il accepte une étape isolée : `./scripts/verify.sh prove`.
 
 | # | Module | Ce qu'on en retire |
 |---|---|---|
-| 00 | [environnement](modules/00-environnement/) | le SECI conteneurisé, et pourquoi il est le document §11.15 |
+| 00 | [environnement](modules/00-environnement/) | la DO-178C en une page, et le SECI conteneurisé : pourquoi il est le document §11.15 |
 | 01 | [types et contraintes](modules/01-types-et-contraintes/) | la borne est dans le type, pas dans les gardes |
 | 02 | [vérifications à l'exécution](modules/02-verifications-execution/) | ce que GNAT ajoute, ce que ça coûte, ce que la suppression oblige |
 | 03 | [contrats Ada 2022](modules/03-contrats-ada-2022/) | le contrat remplace la programmation défensive |
