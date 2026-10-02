@@ -24,7 +24,7 @@ Le FQMS calcule et affiche à l'équipage la quantité de carburant embarquée. 
 surveille trois réservoirs : aile gauche (5 000 kg), caisson central
 (8 000 kg), aile droite (5 000 kg).
 
-**Justification du DAL B** (issue de l'analyse de sécurité système, ARP4761) :
+**Justification du DAL B** (issue de l'analyse de sécurité système, ARP4761A) :
 une indication de quantité **erronée par excès** peut conduire l'équipage à
 décoller avec un carburant insuffisant, donc à une panne sèche en vol —
 condition de panne **dangereuse**. Le vol Air Canada 143 (1983) en est

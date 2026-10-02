@@ -23,9 +23,10 @@ Ils viennent tous d'une exécution, pas d'une estimation.
 ## 2. Sur la DO-178C
 
 > **« Qu'est-ce que le DAL, et qui le choisit ? »**
-> Le *Design Assurance Level* est alloué par l'analyse de sécurité **système**
-> (ARP4761), à partir de l'effet de la panne : catastrophique en A, sans effet
-> en E. L'équipe logicielle ne le choisit pas, elle le subit. Ce qu'il change,
+> Le niveau logiciel — *software level* dans la DO-178C, couramment appelé
+> DAL — est alloué par l'analyse de sécurité **système** (ARP4754B,
+> ARP4761A), à partir de l'effet de la panne : catastrophique en A, sans effet
+> sur la sécurité en E. L'équipe logicielle ne le choisit pas, elle le subit. Ce qu'il change,
 > c'est le nombre d'objectifs à satisfaire, l'indépendance exigée, et le
 > niveau de couverture structurelle.
 
