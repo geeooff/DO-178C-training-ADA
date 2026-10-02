@@ -220,7 +220,8 @@ Toutes les données de vie ne sont pas gardées de la même façon.
 | **Archivage et récupération garantis** | **oui** | allégé |
 | Exemples | plans, exigences, code source, SCI, SECI, résultats de vérification | standards de codage, cas de test intermédiaires, données de développement |
 
-Le tableau A-2 de l'annexe A donne la catégorie de chaque donnée par niveau.
+Chaque table de l'annexe A donne, pour chaque donnée qu'elle produit, sa
+catégorie de contrôle par niveau — le SECI figure dans la table A-8.
 Le point à retenir : **le SCI est CC1 quel que soit le niveau, et le SECI
 l'est jusqu'au niveau C**. Au niveau D, la table A-8 l'allège en CC2 :
 l'environnement doit toujours être identifié et maîtrisé, mais l'enjeu de
