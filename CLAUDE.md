@@ -141,6 +141,7 @@ couverture, formatage) dans une image `ubuntu:26.04`. Versions épinglées dans
 | `gnatcov` (`gnatcov_bin`) | 26.2.1 | Alire |
 | `gnatformat` (`gnatformat_bin`) | 26.0.0 | Alire |
 | Alire (`alr`) | 2.1.1 | binaire amont GitHub |
+| Image de base | `ubuntu:resolute@sha256:…` (26.04 LTS) | épinglée par digest le 2026-10-02 — valeur dans le Dockerfile |
 
 **Le paquet `alire` d'Ubuntu ne convient pas.** Il existe bien
 (`resolute/universe`, `1.2.1-2.1build1`), mais `alr` 1.2.1 n'accepte que la
@@ -202,6 +203,15 @@ privilégié du conteneur.
   partie privée ; `--spark-compat` n'y change rien (gnatcov 26.2.1). Réponse
   retenue : coquille d'état mince et sans décision, logique dans un paquetage
   sans état qui, lui, est mesuré, et exclusion justifiée dans `coverage.sh`.
+- **Une étiquette d'image Docker n'est pas une version.** La CI a construit
+  sur trois images `ubuntu:26.04` différentes entre le 28 août et le
+  2 octobre 2026, sans qu'aucune ligne du dépôt ne change. Épingler par
+  digest, sous le **nom de code** (`resolute`) : Dependabot a une option de
+  serveur, `docker_digest_only_update_suppression` (dependabot-core#15103),
+  qui supprime les propositions de digest sur une étiquette versionnée comme
+  `26.04` ; un nom de code en est exempté, et ne glisse jamais vers une
+  version non LTS. Chaque proposition de digest est un changement de SECI :
+  vérification complète avant d'accepter.
 - **`gnatformat` réécrit `=>+` en `=> +`**, forme que `-gnatyt` refuse
   ensuite. Deux outils de la chaîne se contredisent. Écrire la dépendance en
   toutes lettres : `Depends => (State => (State, Reading))`.

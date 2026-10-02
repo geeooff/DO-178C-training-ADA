@@ -175,8 +175,10 @@ dit en toutes lettres — **« OUI — NON BASELINABLE »**.
 **Ce que cet outil fait de particulier ici.** Le SECI de ce dépôt n'est pas
 une liste qu'on tient à jour : c'est
 [`.devcontainer/Dockerfile`](../../.devcontainer/Dockerfile), où chaque
-version est épinglée. L'outil lit donc ses `ARG` **et** interroge les outils
-présents, puis rapproche les deux :
+version est épinglée — l'image de base comprise, par son digest. L'outil lit
+donc ses `ARG` **et** interroge les outils présents, puis rapproche les deux.
+Il lit aussi la ligne `FROM`, et signale une image de base désignée par sa
+seule étiquette : elle peut changer sans que le dépôt change.
 
 | Outil | Épinglé | Détecté |
 |---|---|---|

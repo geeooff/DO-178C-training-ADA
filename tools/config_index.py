@@ -117,6 +117,38 @@ def pinned_versions(root: Path) -> dict[str, str]:
     return epingles
 
 
+def base_images(root: Path) -> list[str]:
+    """Lit les images de base EXTERNES des lignes FROM du Dockerfile du SECI.
+
+    Les options (`--platform=...`) sont ignorees, ainsi que les references a
+    une etape precedente d'une construction multi-etapes (`FROM build`).
+    L'instruction n'est reconnue qu'en majuscules, comme ce depot l'ecrit :
+    une ligne `from ...` dans un heredoc Python n'est pas un FROM.
+
+    Deux limites, assumees pour un Dockerfile a une seule etape ecrit en
+    clair : une instruction `from` en minuscules echappe au controle, et un
+    FROM ecrit au travers d'un ARG (`FROM ${BASE}`) est signale meme si
+    l'ARG porte un digest, faute de pouvoir le verifier.
+    """
+    chemin = root / DOCKERFILE
+    if not chemin.is_file():
+        return []
+    etapes: set[str] = set()
+    images: list[str] = []
+    for ligne in chemin.read_text(encoding="utf-8").splitlines():
+        mots = ligne.split()
+        if not mots or mots[0] != "FROM":
+            continue
+        reste = [mot for mot in mots[1:] if not mot.startswith("--")]
+        if not reste:
+            continue
+        if reste[0].lower() not in etapes:
+            images.append(reste[0])
+        if len(reste) >= 3 and reste[1].upper() == "AS":
+            etapes.add(reste[2].lower())
+    return images
+
+
 def tracked_files(root: Path) -> list[str]:
     listing = run_git(root, "ls-files")
     if not listing:
@@ -265,6 +297,7 @@ def majeur_mineur(version: str) -> str:
 
 def build_seci(root: Path) -> str:
     epingles = pinned_versions(root)
+    images = base_images(root)
     ecarts: list[str] = []
 
     lignes: list[str] = []
@@ -289,6 +322,24 @@ def build_seci(root: Path) -> str:
     out.append("")
     out.append(f"Système hôte : `{distribution_hote()}`")
     out.append("")
+    if len(images) == 1:
+        out.append(f"Image de base (déclarée dans le Dockerfile) : `{images[0]}`")
+    else:
+        out.append("Images de base (déclarées dans le Dockerfile) :")
+        out.extend(f"- `{image}`" for image in images)
+        if not images:
+            out.append("- (aucune ligne FROM trouvée)")
+    out.append("")
+    sans_digest = [image for image in images if "@sha256:" not in image]
+    if sans_digest or not images:
+        out.append("> **IMAGE DE BASE NON ÉPINGLÉE PAR DIGEST** : "
+                   + (", ".join(f"`{image}`" for image in sans_digest)
+                      or "aucune image trouvée") + ".")
+        out.append("> Une étiquette d'image est un nom, que l'éditeur repose sur")
+        out.append("> une autre image à chaque rafraîchissement : le SECI peut")
+        out.append("> alors changer sans que le dépôt change. Épinglez")
+        out.append("> `FROM <image>:<étiquette>@sha256:<digest>`.")
+        out.append("")
     out.append(
         "La colonne « épinglé » vient des `ARG` de "
         "[`.devcontainer/Dockerfile`](../.devcontainer/Dockerfile), qui **est**"

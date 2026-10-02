@@ -25,10 +25,19 @@
 #
 #      alr search gnatprove --full
 #
-#  Dependabot suit en revanche l'image de base `ubuntu:26.04` du Dockerfile.
-#  Une proposition de passer à une version non LTS est à REFUSER : 26.04 est
-#  une LTS, maintenue jusqu'en 2031, et un SECI ne change de socle que pour
-#  la LTS suivante — après avoir rejoué toute la vérification dessus.
+#  Dependabot suit en revanche l'image de base du Dockerfile. Elle y est
+#  épinglée par DIGEST, sous son nom de code — `ubuntu:resolute@sha256:…`,
+#  c'est-à-dire 26.04 LTS. À chaque passage mensuel, Dependabot propose le
+#  digest courant de `resolute` si Canonical a rafraîchi l'image depuis.
+#  Chacune de ces propositions change le SECI. Elle ne s'accepte qu'après
+#  avoir rejoué toute la vérification, comme un changement de compilateur :
+#  c'est le prix de l'épinglage, et c'est ce que doit coûter un changement de
+#  SECI.
+#
+#  Le nom de code règle aussi la question des versions non LTS : `resolute`
+#  ne désignera jamais 26.10. Passer à la LTS suivante sera une décision
+#  explicite — changer de nom de code — prise après avoir rejoué toute la
+#  vérification sur le nouveau socle. 26.04 est maintenue jusqu'en 2031.
 # =============================================================================
 version: 2
 

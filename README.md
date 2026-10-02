@@ -122,6 +122,7 @@ Toutes les versions sont épinglées dans
 | `gnatcov` | 26.2.1 | couverture structurelle, jusqu'au MC/DC |
 | `gnatformat` | 26.0.0 | formatage |
 | Alire (`alr`) | 2.1.1 | installation de la chaîne |
+| Image de base | `ubuntu:resolute` (26.04 LTS), **épinglée par digest** | socle du SECI |
 
 Détails, pièges vérifiés et statut DO-330 de chaque outil :
 [`docs/03-outils.md`](docs/03-outils.md).

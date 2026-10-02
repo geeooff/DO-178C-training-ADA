@@ -33,6 +33,11 @@
 Voir [module 11](../modules/11-standards-qualification/) et
 `tools/config_index.py`, qui génère le SCI et le SECI de ce dépôt.
 
+Le SECI de ce dépôt épingle son image de base par **digest** : l'empreinte
+SHA-256 qui identifie une image Docker par son contenu. Une **étiquette**
+(`ubuntu:resolute`, `ubuntu:26.04`) n'est qu'un nom, que l'éditeur peut
+reposer sur une autre image ; le digest, non.
+
 ## 3. Niveaux et catégories
 
 | Terme | Ce que c'est |

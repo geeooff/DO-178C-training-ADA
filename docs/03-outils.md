@@ -17,6 +17,7 @@
 | `gnatcov` | 26.2.1 | couverture, jusqu'au MC/DC | **critère 3 : TQL-5, le niveau du kit AdaCore** |
 | `gnatformat` | 26.0.0 | formatage | non requise — il vérifie, il ne corrige pas en CI |
 | Alire (`alr`) | 2.1.1 | installation de la chaîne | — |
+| Image de base | `ubuntu:resolute@sha256:…` (26.04 LTS) | socle du SECI | — |
 | `tools/trace_check.py` | — | matrice de traçabilité | non requise — complète la revue |
 | `tools/config_index.py` | — | SCI et SECI | non requise — produit une donnée relue |
 
@@ -130,6 +131,15 @@ Chacun a coûté du temps une fois. Ils sont aussi dans
   **exit 126**. Invisible en local — un montage bind depuis Windows présente
   tout en 777. Seul un `git checkout` sur un runner Linux le révèle.
   Correction : `git update-index --chmod=+x <fichier>`.
+- **Une étiquette d'image Docker n'est pas une version.** `FROM ubuntu:26.04`
+  désigne l'image que Canonical publie *aujourd'hui* sous ce nom : la CI de
+  ce dépôt a construit sur **trois** images de base différentes entre le
+  28 août et le 2 octobre 2026, sans qu'aucune ligne du dépôt ne change.
+  Correction : épingler par digest, `FROM ubuntu:resolute@sha256:<digest>`.
+  Et préférer le **nom de code** à la version : Dependabot a une option de
+  serveur qui peut supprimer les propositions de digest sur une étiquette
+  versionnée comme `26.04` (dependabot-core#15103) ; un nom de code en est
+  exempté.
 
 ### Langage
 

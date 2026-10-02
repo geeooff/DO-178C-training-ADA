@@ -7,7 +7,22 @@
 # Toute version ci-dessous est épinglée. En changer une est une modification
 # de configuration, qui se commite seule et se justifie.
 # ---------------------------------------------------------------------------
-FROM ubuntu:26.04
+
+# L'image de base est épinglée par DIGEST — l'empreinte SHA-256 de l'image —
+# et pas seulement par étiquette. Une étiquette est un nom, que l'éditeur
+# repose sur une nouvelle image à chaque rafraîchissement : entre le 28 août
+# et le 2 octobre 2026, la CI de ce dépôt a construit sur trois images de
+# base différentes sans qu'aucune ligne du dépôt ne change.
+#
+# L'étiquette retenue est le NOM DE CODE `resolute`, c'est-à-dire Ubuntu
+# 26.04 LTS, et non `26.04`. Les deux désignent la même image, mais
+# Dependabot ne les traite pas pareil. Sur une étiquette versionnée, une
+# option de son serveur peut supprimer les propositions de nouveau digest
+# (docker_digest_only_update_suppression, dependabot-core#15103) ; un nom de
+# code en est exempté, et ne peut pas non plus glisser vers une version non
+# LTS. À chaque passage mensuel, Dependabot propose donc le digest courant
+# de `resolute` : la dérive silencieuse devient une proposition relue.
+FROM ubuntu:resolute@sha256:3595d7fc4286a33fad0fd853a4063e654287a9c3787437d7937c94ca3f7a804e
 
 # Alire est le gestionnaire de paquets d'Ada. On prend le binaire amont et non
 # le paquet `alire` de l'univers Ubuntu (1.2.1) : cette version-là est bloquée
@@ -61,7 +76,7 @@ RUN /opt/alire/bin/alr -n install --prefix=${ADA_PREFIX} \
 RUN gnatcov setup --prefix=${ADA_PREFIX} \
  && chmod -R a+rX ${ADA_PREFIX}
 
-# ubuntu:26.04 fournit déjà l'utilisateur `ubuntu` en uid 1000.
+# L'image Ubuntu 26.04 fournit déjà l'utilisateur `ubuntu` en uid 1000.
 RUN echo "ubuntu ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/ubuntu \
  && chmod 0440 /etc/sudoers.d/ubuntu
 USER ubuntu
