@@ -88,7 +88,8 @@ du sujet.
 
 1. **Vérifications à l'exécution, et leur suppression.** Ada en insère par
    défaut. Les garder coûte du temps réel et produit du **code objet sans
-   équivalent source** — d'où la question de la **couverture du code objet**.
+   équivalent source** — d'où l'objectif A-7.9, la **vérification du code
+   objet**.
    Les supprimer par `pragma Suppress` oblige à **prouver** qu'elles ne
    pouvaient pas se déclencher.
 2. **SPARK et la DO-333.** Prouver l'absence d'erreur à l'exécution (AoRTE),

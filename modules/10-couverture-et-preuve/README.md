@@ -35,7 +35,8 @@ savait pas produire.
 | 5 | **MC/DC** | DAL A |
 | 6 | **décisions** | DAL B |
 | 7 | **instructions** | DAL C |
-| 8 | code objet sans équivalent source | DAL A (voir module 02) |
+| 8 | couplage de données et de contrôle | DAL C (voir module 04) |
+| 9 | *pas une couverture* : vérification du code objet sans équivalent source | DAL A (voir module 02) |
 
 Ce n'est pas une échelle de zèle : chaque niveau répond à une question
 différente.
@@ -195,7 +196,7 @@ GNATcoverage sait faire les deux, et le choix n'est pas neutre :
 |---|---|---|
 | Ce qui est mesuré | le **source** | le **code objet** |
 | Ce qu'il faut | rien de spécial | émulateur ou sonde matérielle |
-| Objectif A-7.9 (DAL A) | ne le couvre pas | le couvre |
+| Objectif A-7.9 (DAL A) | n'y aide pas | l'une des façons d'y répondre |
 | Effet sur le code | le modifie (voir §1.7) | aucun |
 
 Ce dépôt fait de l'instrumentation de source : c'est ce qui tourne sans cible.

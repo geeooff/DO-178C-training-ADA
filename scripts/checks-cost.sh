@@ -47,8 +47,8 @@ modules/02-verifications-execution/bin/sans/main | tail -4
 # -gnatG imprime le source ÉTENDU par le compilateur : on y lit les
 # `[constraint_error when ...]` que personne n'a écrits. C'est très
 # exactement ce que la DO-178C §6.4.4.2.b appelle du code objet sans
-# équivalent source, et ce qui oblige, en DAL A, à une analyse de couverture
-# du code objet.
+# équivalent source, et ce qui oblige, en DAL A, à une vérification à part de
+# sa correction (objectif A-7.9) — par revue, analyse ou test.
 #
 # On compile ici l'unité seule, hors gprbuild : sinon la sortie mélange les
 # vérifications de toutes les unités du projet, harnais compris.

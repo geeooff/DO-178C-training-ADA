@@ -120,7 +120,7 @@ Ils viennent tous d'une exécution, pas d'une estimation.
 Celles qui cherchent à savoir si le candidat sait où s'arrête son expérience.
 
 > **« Qu'est-ce que vous n'avez pas fait ? »**
-> Pas de tests sur cible réelle, pas de couverture du code objet, pas
+> Pas de tests sur cible réelle, pas de vérification du code objet, pas
 > d'analyse WCET réelle, pas de multicœur, pas de DO-331, pas de rédaction
 > complète des plans, aucune relation avec une autorité. Ce sont les limites
 > d'un dépôt d'apprentissage sans matériel, et elles sont écrites dans le plan
