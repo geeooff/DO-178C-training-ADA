@@ -193,6 +193,16 @@ toujours** — la comparaison porte donc sur `majeur.mineur`, et le document le
 dit. C'est exactement le genre de détail qu'un SECI doit rendre visible plutôt
 que lisser.
 
+**Ce que le SECI contient, et ce qui le construit.** L'image est épinglée ;
+les outils qui l'assemblent ne le sont pas. L'image du runner GitHub ne peut
+pas l'être, buildx en vient, et BuildKit est tiré par une étiquette mouvante
+— il est passé de 0.32.2 à 0.33.1 entre deux exécutions de la CI, sans
+que rien ne change dans le dépôt. Les épingler dans le workflow créerait des
+versions que Dependabot ne suit pas : une dette invisible de plus. Ils sont
+donc **tracés** — la CI les transmet à l'outil, qui les consigne dans une
+section du SECI à chaque génération. Épingler ce qu'on peut suivre, tracer
+ce qu'on ne peut pas épingler : c'est la règle, et elle se dit en entretien.
+
 ### 1.5 CC1 et CC2
 
 Toutes les données de vie ne sont pas gardées de la même façon.

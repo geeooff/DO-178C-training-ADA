@@ -29,6 +29,16 @@ ARG de ce fichier EN PLUS d'interroger les outils presents sur la machine, et
 il RAPPROCHE les deux. Un ecart entre la version epinglee et la version
 detectee est signale : c'est exactement le defaut qu'un SECI doit empecher.
 
+Il lit aussi les lignes FROM, et signale toute image de base designee par sa
+seule etiquette, sans digest : elle peut changer sans que le depot change.
+
+Enfin, il consigne ce qui CONSTRUIT l'image sans en faire partie -- image du
+runner, buildx, BuildKit -- quand la CI le lui transmet par les variables
+SECI_RUNNER, SECI_BUILDX et SECI_BUILDKIT. Ces outils ne sont pas epingles :
+ils sont traces. GITHUB_ACTIONS, transmise elle aussi, distingue un document
+genere hors CI (variables absentes, c'est normal) d'un document genere en CI
+avec une valeur manquante (c'est un defaut, et il est signale).
+
 STATUT DE QUALIFICATION (DO-330)
 --------------------------------
 Cet outil produit une DONNEE DE VIE DU LOGICIEL. Il n'elimine, ne reduit ni
@@ -49,6 +59,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import os
 import platform
 import re
 import subprocess
@@ -385,6 +396,38 @@ def build_seci(root: Path) -> str:
         out.append("")
     else:
         out.append("> Aucun écart : la machine correspond à l'épinglage.")
+        out.append("")
+
+    out.append("### Construction de l'image")
+    out.append("")
+    out.append("Ces éléments CONSTRUISENT l'image sans en faire partie, et ne sont")
+    out.append("pas épinglés. L'image du runner ne peut pas l'être — c'est aussi")
+    out.append("son noyau qui exécute la vérification, voir « Système hôte ».")
+    out.append("buildx en vient, et BuildKit est tiré par une étiquette mouvante :")
+    out.append("les figer dans le workflow créerait des versions que Dependabot ne")
+    out.append("suit pas. Ils sont donc **tracés**, à chaque génération.")
+    out.append("")
+    out.append("| Élément | Version |")
+    out.append("|---|---|")
+    manquants: list[str] = []
+    for nom, variable in (
+        ("Image du runner", "SECI_RUNNER"),
+        ("buildx", "SECI_BUILDX"),
+        ("BuildKit", "SECI_BUILDKIT"),
+    ):
+        valeur = os.environ.get(variable, "").strip()
+        if not valeur:
+            manquants.append(nom)
+        out.append(f"| {nom} | `{valeur or 'non renseigné'}` |")
+    out.append("")
+    if os.environ.get("GITHUB_ACTIONS") != "true":
+        out.append("> Document généré hors de la CI, qui seule transmet ces")
+        out.append("> versions (`SECI_*`).")
+        out.append("")
+    elif manquants:
+        out.append(f"> **VALEUR MANQUANTE EN CI** : {', '.join(manquants)}. L'étape")
+        out.append("> « Identifier l'environnement » aurait dû échouer : ce SECI")
+        out.append("> est incomplet.")
         out.append("")
 
     out.append("## 2. Options de compilation")

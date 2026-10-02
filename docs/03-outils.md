@@ -21,6 +21,12 @@
 | `tools/trace_check.py` | — | matrice de traçabilité | non requise — complète la revue |
 | `tools/config_index.py` | — | SCI et SECI | non requise — produit une donnée relue |
 
+Ce tableau dit ce que l'image **contient**, et tout y est épinglé. Ce qui la
+**construit** — image du runner GitHub, buildx, BuildKit — ne l'est pas :
+le runner ne peut pas l'être, et figer les deux autres dans le workflow
+créerait des versions que Dependabot ne suit pas. La CI les **trace** dans
+son journal et dans le SECI, à chaque exécution.
+
 ---
 
 ## 2. Pourquoi le binaire Alire et non le paquet Ubuntu

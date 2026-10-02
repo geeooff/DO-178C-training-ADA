@@ -84,8 +84,35 @@ jobs:
       # Identifier l'environnement de production fait partie des données de
       # vie : le journal de la CI doit dire avec quoi le résultat a été
       # obtenu, sans avoir à ouvrir le Dockerfile.
+      #
+      # Deux niveaux. Ce que l'image CONTIENT est épinglé dans le Dockerfile.
+      # Ce qui la CONSTRUIT ne l'est pas : l'image du runner ne peut pas
+      # l'être, buildx vient d'elle, et BuildKit est tiré par l'étiquette
+      # mouvante `moby/buildkit:buildx-stable-1`. Entre le 19 septembre et le
+      # 2 octobre 2026, BuildKit est passé de 0.32.2 à 0.33.1 sans que rien
+      # ne change ici. Ces versions sont donc TRACÉES, dans ce journal et
+      # dans le SECI, plutôt qu'épinglées : figer BuildKit dans ce workflow
+      # créerait une version que Dependabot ne suit pas, donc une dette
+      # invisible de plus.
+      #
+      # Une valeur introuvable fait ÉCHOUER l'étape. Le shell par défaut est
+      # `bash -e` sans pipefail : sans le test explicite, un format de sortie
+      # changé écrirait une valeur vide en silence, et le SECI — donnée CC1 —
+      # serait incomplet sans le dire.
       - name: Identifier l'environnement
         run: |
+          runner="${ImageOS:?ImageOS absent} ${ImageVersion:?ImageVersion absent}"
+          buildx=$(docker buildx version)
+          buildkit=$(docker buildx inspect | sed -n 's/^BuildKit version: *//p' | head -1)
+          if [ -z "$buildx" ] || [ -z "$buildkit" ]; then
+            echo "::error::version de buildx ou de BuildKit introuvable"
+            exit 1
+          fi
+          {
+            echo "SECI_RUNNER=$runner"
+            echo "SECI_BUILDX=$buildx"
+            echo "SECI_BUILDKIT=$buildkit"
+          } | tee -a "$GITHUB_ENV"
           docker run --rm do178c-ada:verif bash -lc '
             . /etc/os-release && echo "Système    : $PRETTY_NAME $(uname -m)"
             echo "gnatmake   : $(gnatmake --version | head -1)"
@@ -121,6 +148,7 @@ jobs:
           docker run --rm \
             -v "$PWD:/workspace" \
             --user "$(id -u):$(id -g)" -e HOME=/tmp \
+            -e GITHUB_ACTIONS -e SECI_RUNNER -e SECI_BUILDX -e SECI_BUILDKIT \
             do178c-ada:verif bash -lc '
               git config --global --add safe.directory /workspace
               python3 tools/config_index.py'
