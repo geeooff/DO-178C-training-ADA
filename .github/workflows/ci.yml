@@ -98,8 +98,8 @@ jobs:
       #
       # Une valeur introuvable fait ÉCHOUER l'étape. Le shell par défaut est
       # `bash -e` sans pipefail : sans le test explicite, un format de sortie
-      # changé écrirait une valeur vide en silence, et le SECI — donnée CC1 —
-      # serait incomplet sans le dire.
+      # changé écrirait une valeur vide en silence, et le SECI — donnée CC1
+      # pour un logiciel DAL B comme le FQMS — serait incomplet sans le dire.
       - name: Identifier l'environnement
         run: |
           runner="${ImageOS:?ImageOS absent} ${ImageVersion:?ImageVersion absent}"
@@ -140,7 +140,7 @@ jobs:
             --user "$(id -u):$(id -g)" -e HOME=/tmp \
             do178c-ada:verif ./scripts/coverage.sh
 
-      # Le SCI et le SECI sont des données de vie CC1 : ils ne sont pas
+      # Le SCI et le SECI sont des données de vie CC1 au DAL B : ils ne sont pas
       # versionnés — ils sont REGÉNÉRÉS depuis l'état exact du dépôt, sinon
       # ils se périment en silence. fetch-depth: 0 plus haut est nécessaire à
       # `git describe`, dont l'outil se sert pour identifier la baseline.

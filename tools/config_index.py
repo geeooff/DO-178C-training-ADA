@@ -18,8 +18,10 @@ certification doit contenir :
             La liste EXACTE de l'environnement de production : compilateur et
             sa version, options, outils de verification, systeme hote.
 
-Ces deux documents sont classes CC1 quel que soit le niveau DAL : sans eux,
-le produit n'est ni identifiable ni reproductible.
+Le SCI est classe CC1 a tous les niveaux : sans lui, le produit n'est pas
+identifiable. Le SECI l'est aux niveaux A a C ; la table A-8 l'allege en CC2
+au niveau D, ou l'enjeu ne justifie plus l'approbation formelle de chaque
+version de l'environnement.
 
 CE QUE CET OUTIL FAIT DE PARTICULIER ICI
 ----------------------------------------
@@ -327,8 +329,9 @@ def build_seci(root: Path) -> str:
     out: list[str] = []
     out.append("# SECI — Software Life Cycle Environment Configuration Index")
     out.append("")
-    out.append("> Document DO-178C §11.15. Catégorie de contrôle : **CC1** à")
-    out.append("> tous les niveaux. Généré par `tools/config_index.py`.")
+    out.append("> Document DO-178C §11.15. Catégorie de contrôle : **CC1** aux")
+    out.append("> niveaux A à C, CC2 au niveau D (table A-8). Généré par")
+    out.append("> `tools/config_index.py`.")
     out.append("")
     out.append("## 1. Environnement de production et de vérification")
     out.append("")

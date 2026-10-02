@@ -23,8 +23,8 @@ revient toujours en entretien — *cet outil, il est qualifié ?*
    vérifiée**, et savoir pourquoi c'est la seule colonne qui compte.
 2. Connaître les trois **critères** de la DO-330 et les cinq **TQL**, et
    savoir poser la bonne question.
-3. Savoir ce qu'est un **SCI** et un **SECI**, et pourquoi ils sont CC1 à
-   tous les niveaux.
+3. Savoir ce qu'est un **SCI** et un **SECI**, et pourquoi ils sont CC1 —
+   le SCI à tous les niveaux, le SECI jusqu'au niveau C.
 4. Savoir distinguer **CC1** et **CC2**, et ce que ça change.
 
 ---
@@ -153,7 +153,9 @@ rien. Le sujet passe du concept à l'artefact commercial.
 
 ### 1.4 SCI et SECI
 
-Deux documents du §11, **CC1 à tous les niveaux** :
+Deux documents du §11, sous le contrôle de configuration le plus strict —
+**CC1** — à tous les niveaux pour le SCI, aux niveaux A à C pour le SECI
+(table A-8 ; CC2 au niveau D) :
 
 | Document | §  | Ce qu'il dit |
 |---|---|---|
@@ -219,8 +221,11 @@ Toutes les données de vie ne sont pas gardées de la même façon.
 | Exemples | plans, exigences, code source, SCI, SECI, résultats de vérification | standards de codage, cas de test intermédiaires, données de développement |
 
 Le tableau A-2 de l'annexe A donne la catégorie de chaque donnée par niveau.
-Le point à retenir : **le SCI et le SECI sont CC1 quel que soit le DAL**,
-parce que sans eux le produit n'est ni identifiable ni reproductible.
+Le point à retenir : **le SCI est CC1 quel que soit le niveau, et le SECI
+l'est jusqu'au niveau C**. Au niveau D, la table A-8 l'allège en CC2 :
+l'environnement doit toujours être identifié et maîtrisé, mais l'enjeu de
+sécurité ne justifie plus une revue et une approbation formelles de chaque
+version. Le FQMS du module 12, DAL B, a donc les deux en CC1.
 
 Le standard de codage de ce dépôt est marqué **CC2**, et c'est délibéré : il
 se relit et se met à jour sans la lourdeur d'une approbation formelle.
@@ -276,8 +281,9 @@ se relit et se met à jour sans la lourdeur d'une approbation formelle.
 
 > **« Qu'est-ce qu'un SECI et pourquoi CC1 ? »**
 > C'est l'identification exacte de l'environnement qui a produit le binaire :
-> compilateur, version, options, outils. CC1 parce qu'un logiciel qu'on ne
-> sait pas reconstruire à l'identique n'est pas certifiable, quel que soit son
-> DAL. Sur mon dépôt, le SECI est généré depuis les versions épinglées du
+> compilateur, version, options, outils. CC1 aux niveaux A à C — CC2 au
+> niveau D, d'après la table A-8 — parce qu'un logiciel qu'on ne sait pas
+> reconstruire à l'identique n'est pas certifiable. Le SCI, lui, est CC1 à
+> tous les niveaux. Sur mon dépôt, le SECI est généré depuis les versions épinglées du
 > Dockerfile et rapproché de la machine — un écart est signalé plutôt que
 > lissé.

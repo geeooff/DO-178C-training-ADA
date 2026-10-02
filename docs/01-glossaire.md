@@ -43,7 +43,7 @@ reposer sur une autre image ; le digest, non.
 | Terme | Ce que c'est |
 |---|---|
 | **DAL** (A à E) | *Design Assurance Level*. Alloué par l'analyse de sécurité **système**, jamais choisi par l'équipe logicielle. A = catastrophique, E = sans effet. |
-| **CC1 / CC2** | *Control Category*. CC1 exige revue formelle, approbation et archivage garanti ; CC2 est allégé. Le SCI et le SECI sont CC1 **à tous les DAL**. |
+| **CC1 / CC2** | *Control Category*. CC1 exige revue formelle, approbation et archivage garanti ; CC2 est allégé. Le SCI est CC1 **à tous les niveaux**, le SECI aux niveaux A à C (CC2 au niveau D, table A-8). |
 | **TQL** (1 à 5) | *Tool Qualification Level*, DO-330. Croisement du **critère** de l'outil et du DAL. |
 
 ## 4. Exigences
