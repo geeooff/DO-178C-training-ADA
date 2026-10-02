@@ -11,7 +11,7 @@
 | Terme | Ce que c'est |
 |---|---|
 | **DO-178C** / ED-12C | *Software Considerations in Airborne Systems and Equipment Certification*. La norme. Décrit des **objectifs**, pas une méthode. |
-| **DO-330** | Supplément *Tool Qualification*. Quand et comment qualifier un outil. |
+| **DO-330** | *Software Tool Qualification Considerations*. Un document **autonome**, pas un supplément de la DO-178C : il sert aussi hors de l'aéronautique embarquée. Quand et comment qualifier un outil. Voir [module 11](../modules/11-standards-qualification/). |
 | **DO-331** | Supplément *Model-Based Development* — SCADE, Simulink. |
 | **DO-332** | Supplément *Object-Oriented Technology*. Voir [module 08](../modules/08-objet-do332/). |
 | **DO-333** | Supplément *Formal Methods*. Voir [module 05](../modules/05-spark-preuve-do333/). |
