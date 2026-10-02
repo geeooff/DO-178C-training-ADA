@@ -348,6 +348,17 @@ terminologie « type dérivé », et les liens vers le dépôt frère. Le protoc
 de cette revue est simple et à rejouer avant tout passage en public :
 chaque référence normative vérifiée contre la norme, chaque lien vérifié
 par outil, chaque chiffre du README recompté depuis un journal d'exécution.
+Et chaque fichier suivi passé au crible, pas seulement les `.md`, `.ads` et
+`.adb` : le générateur du SECI a gardé jusqu'au 2 octobre des statuts DO-330
+corrigés partout ailleurs le 19 septembre.
+
+**Un lien vers un répertoire n'est valide que si ce répertoire a un
+README.** Le vérificateur de liens du 19 septembre ne contrôlait que
+l'existence de la cible : le module 00, présenté comme le cours sur le
+SECI, est resté sans README jusqu'au 2 octobre, lien vert à l'appui. Les
+seuls répertoires liés sans README admis sont les sous-projets de module
+(aujourd'hui liés : `restreint/`, `decision-seule/`, `nonconforme/`) et les
+répertoires `requirements/`, que le README de leur module présente.
 
 ### Ce qui reste ouvert
 
