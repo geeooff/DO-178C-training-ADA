@@ -467,12 +467,12 @@ def build_seci(root: Path) -> str:
         "utilisé en complément de la revue |"
     )
     out.append(
-        "| `gnatprove` | preuve formelle | **TQL-5 si la preuve remplace "
-        "un objectif de test** (DO-333) |"
+        "| `gnatprove` | preuve formelle | **critère 2 si la preuve "
+        "remplace des tests** (DO-333) : TQL-4 au DAL B |"
     )
     out.append(
-        "| `gnatcov` | couverture structurelle | **TQL-5 si le résultat "
-        "remplace une revue** — kit de qualification existant |"
+        "| `gnatcov` | couverture structurelle | **critère 3** : TQL-5 à "
+        "tout DAL — kit de qualification existant |"
     )
     out.append(
         "| `gnatformat` | formatage | non requise — vérifie, ne corrige pas "
