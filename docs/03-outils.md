@@ -1,9 +1,10 @@
 # La chaîne d'outils
 
 > Ce que fait chaque outil, ce qu'il coûte, ce qu'on peut lui faire dire, et
-> son statut DO-330. La chaîne Ada et l'image de base sont épinglées dans
+> son statut DO-330. Ce que l'image contient est épinglé dans
 > [`.devcontainer/Dockerfile`](../.devcontainer/Dockerfile), **qui est le
-> SECI de ce dépôt** — les paquets apt ne le sont pas encore (§5).
+> SECI de ce dépôt** — paquets apt et archive d'Alire compris, avec une
+> réserve sur l'index d'Alire (§5).
 
 ---
 
@@ -18,12 +19,12 @@
 | `gnatformat` | 26.0.0 | formatage | non requise — il vérifie, il ne corrige pas en CI |
 | Alire (`alr`) | 2.1.1 | installation de la chaîne | — |
 | Image de base | `ubuntu:resolute@sha256:…` (26.04 LTS) | socle du SECI | — |
+| Paquets apt | instantané `20261002T000000Z` | compilateur C, git, python3… | — |
 | `tools/trace_check.py` | — | matrice de traçabilité | non requise — complète la revue |
 | `tools/config_index.py` | — | SCI et SECI | non requise — produit une donnée relue |
 
-Ce tableau dit ce que la chaîne d'outils **contient** : la chaîne Ada et
-l'image de base y sont épinglées, les paquets apt pas encore (§5). Ce qui
-**construit** l'image — image du runner GitHub, buildx, BuildKit — ne l'est
+Ce tableau dit ce que la chaîne d'outils **contient** ; tout ce qui vient de
+l'image y est épinglé. Ce qui **construit** l'image — image du runner GitHub, buildx, BuildKit — ne l'est
 pas :
 le runner ne peut pas l'être, et figer les deux autres dans le workflow
 créerait des versions que Dependabot ne suit pas. La CI les **trace** dans
@@ -149,10 +150,10 @@ Chacun a coûté du temps une fois. Ils sont aussi dans
   versionnée comme `26.04` (dependabot-core#15103) ; un nom de code en est
   exempté.
 
-### Ce que l'épinglage ne couvre pas encore
+### Ce que le digest ne fige pas : paquets apt et archive d'Alire
 
 Épingler l'image de base par digest fige le socle, pas ce qu'on installe
-dessus. Deux trous restent, et les dire fait partie du SECI.
+dessus. Deux trous restaient jusqu'au 3 octobre 2026.
 
 - **Les paquets apt.** `apt-get install` prend la version que l'archive
   Ubuntu publie au moment de la construction. Entre les constructions du
@@ -163,15 +164,52 @@ dessus. Deux trous restent, et les dire fait partie du SECI.
   à jour deux paquets **de l'image de base elle-même** (libssl3t64 et
   openssl-provider-legacy, `3.5.5-1ubuntu3.5` → `3.5.5-1ubuntu3.7`) :
   épingler le socle par digest ne l'empêche pas d'être modifié par la
-  couche suivante. `python3`, qui exécute `trace_check.py`, est installé
-  de la même façon ; il n'a pas bougé cette fois, rien ne l'en empêche la
-  prochaine. La chaîne Ada, elle, vient d'Alire et ne bouge pas.
-- **L'archive d'Alire** est téléchargée par son numéro de version, sans
-  contrôle d'empreinte : une archive remplacée sous le même nom passerait.
+  couche suivante. `python3`, qui exécute `trace_check.py`, était installé
+  de la même façon ; il n'avait pas bougé cette fois, rien ne l'en aurait
+  empêché la suivante.
+- **L'archive d'Alire** était téléchargée par son numéro de version, sans
+  contrôle d'empreinte : une archive remplacée sous le même nom passait.
 
-La correction est connue : `apt-get update --snapshot <date>`, qui fige
-l'archive Ubuntu à un instant donné, et un `sha256sum -c` sur l'archive
-d'Alire. Elle sera faite à part, avec sa propre vérification complète.
+La correction : les sources apt de l'image sont **réécrites** vers un
+**instantané daté** de l'archive (snapshot.ubuntu.com), et l'archive d'Alire
+est contrôlée par `sha256sum -c` contre une empreinte épinglée, identique à
+celle que GitHub publie pour l'asset. Vérifié : l'instantané du 2 octobre
+installe les **105 mêmes paquets, aux mêmes versions**, que la construction
+vérifiée ce jour-là, et apt ne contacte plus que l'instantané. Quatre difficultés,
+rencontrées en le construisant :
+
+- **L'option `APT::Snapshot` ne suffit pas.** Elle fait bien installer
+  depuis l'instantané, mais apt télécharge en plus les index de l'archive
+  courante : la construction dépendrait encore d'`archive.ubuntu.com`.
+  Réécrire les URI des sources supprime cette dépendance.
+- **Un instantané injoignable ne fait pas échouer `apt-get update`** : il
+  rend 0 avec de simples avertissements, et l'échec n'apparaît qu'à
+  l'installation suivante, sous un message trompeur — paquet introuvable.
+  `--error-on=any` le fait échouer au bon endroit, code 100.
+- **snapshot.ubuntu.com n'est servi qu'en HTTPS, et l'image de base n'a pas
+  de certificats racines.** Le premier `update` se fait donc sans vérifier
+  le pair TLS, le temps d'installer `ca-certificates`. La signature GPG de
+  l'archive, qu'apt vérifie avec le trousseau de l'image, garantit
+  l'authenticité de ce qui est reçu — **pas la date** de l'instantané : un
+  intermédiaire pourrait servir un autre instantané, authentique lui aussi.
+  D'où le **réalignement** : après l'`update` vérifié, tout ce que
+  l'amorçage a installé ou modifié est réinstallé à la version de
+  l'instantané épinglé. Vérifié en simulant l'attaque : un amorçage servi
+  par l'instantané du 1er juin installait openssl `3.5.5-1ubuntu3` ; après
+  réalignement, l'image a les versions épinglées, `3.5.5-1ubuntu3.7`.
+- **Une date future est acceptée** par snapshot.ubuntu.com, qui sert alors
+  l'état courant de l'archive. Le Dockerfile refuse une date mal formée ou
+  dans le futur.
+
+Le prix : la date de l'instantané est une valeur de plus à faire avancer, à
+la main. Elle doit rester postérieure à l'image de base, dans le passé, et
+avancer avec le digest — Dependabot ne la suit pas.
+
+**La réserve qui reste.** La chaîne Ada est épinglée par des versions de
+crates, dont l'index communautaire d'Alire consigne les empreintes. Cet
+index est suivi en tête de sa branche `stable-1.4.0`, sans commit épinglé :
+ses manifestes publiés sont immuables par la politique de l'index, pas par
+construction.
 
 ### Langage
 

@@ -4,19 +4,16 @@
 # logiciel a été construit et vérifié. Un fichier qui l'affirme se périme ;
 # une image qui le reconstruit se vérifie. D'où ce Dockerfile.
 #
-# L'image de base, Alire et la chaîne Ada sont épinglés ci-dessous. En
-# changer un est une modification de configuration, qui se commite seule et
-# se justifie.
+# Ce que l'image contient est épinglé ci-dessous : l'image de base par son
+# digest, les paquets apt par un instantané daté de l'archive Ubuntu,
+# l'archive d'Alire par son empreinte SHA-256, la chaîne Ada par les versions
+# de crates Alire, dont l'index communautaire consigne les empreintes. En
+# changer un est une modification de configuration, qui se commite seule, se
+# justifie, et se paie d'une vérification complète.
 #
-# Deux choses ne le sont PAS encore, et c'est dit ici plutôt que passé sous
-# silence. Les paquets apt suivent l'archive Ubuntu au moment d'une
-# construction à froid : entre le 19 septembre et le 2 octobre 2026, curl,
-# openssl, sudo et quatre autres ont changé de version sans que ce fichier
-# change, et apt a mis à jour deux paquets de l'image de base elle-même.
-# python3, qui exécute l'outil de traçabilité, est installé de la même
-# façon : il n'a pas bougé cette fois, rien ne l'en empêche la prochaine.
-# Et l'archive d'Alire est téléchargée sans contrôle d'empreinte. Voir
-# docs/03-outils.md.
+# Une réserve, dite plutôt que tue : cet index est suivi en tête de sa
+# branche stable-1.4.0, sans commit épinglé. Ses manifestes publiés sont
+# immuables par la politique de l'index, pas par construction.
 # ---------------------------------------------------------------------------
 
 # L'image de base est épinglée par DIGEST — l'empreinte SHA-256 de l'image —
@@ -45,6 +42,22 @@ ARG GNATPROVE_VERSION=16.1.0
 ARG GNATCOV_VERSION=26.2.1
 ARG GNATFORMAT_VERSION=26.0.0
 
+# Empreinte de l'archive d'Alire. Un numéro de version n'est qu'un nom : une
+# archive remplacée sous le même nom passerait. Valeur relevée le 2 octobre
+# 2026, identique à l'empreinte que GitHub publie pour cet asset de la
+# release v2.1.1 (12 800 698 octets).
+ARG ALIRE_SHA256=09c66bcd8c35dd4b97b72c3d9b76e44caa6964a2db35aba069f396f00f1f64c7
+
+# Instantané de l'archive Ubuntu (snapshot.ubuntu.com) : `apt-get install`
+# rend alors les mêmes versions quel que soit le jour de la construction.
+# Sans lui, sept paquets ont changé de version entre les constructions du 19
+# septembre et du 2 octobre 2026 sans qu'une ligne du dépôt change. La date
+# doit être postérieure à celle de l'image de base, avancer avec elle, et
+# rester dans le passé : snapshot.ubuntu.com accepte une date future et sert
+# alors l'état courant de l'archive. Dependabot ne la suit pas, c'est un
+# point de revue manuel (voir .github/dependabot.yml).
+ARG UBUNTU_SNAPSHOT=20261002T000000Z
+
 ENV DEBIAN_FRONTEND=noninteractive
 ENV LANG=C.UTF-8
 
@@ -56,15 +69,55 @@ ENV PATH=${ADA_PREFIX}/bin:${PATH}
 ENV GPR_PROJECT_PATH=${ADA_PREFIX}/share/gpr
 ENV LD_LIBRARY_PATH=${ADA_PREFIX}/lib
 
-RUN apt-get update \
+# Ce RUN répond à trois difficultés, vérifiées en le construisant :
+#
+#  * Les sources de l'image sont RÉÉCRITES vers l'instantané, plutôt que
+#    d'utiliser l'option APT::Snapshot : celle-ci laisse apt télécharger en
+#    plus les index de l'archive courante, et la construction dépendrait
+#    encore d'archive.ubuntu.com. Le contrôle qui suit le sed vérifie
+#    qu'aucune source courante ne subsiste.
+#  * Un instantané injoignable laisse `apt-get update` réussir (code 0, de
+#    simples avertissements), et l'échec n'apparaît qu'à l'installation, sous
+#    un message trompeur. `--error-on=any` le fait échouer au bon endroit.
+#  * snapshot.ubuntu.com n'est servi qu'en HTTPS, et l'image de base n'a pas
+#    de certificats racines. Un premier `update` se fait donc sans vérifier le
+#    pair TLS, le temps d'installer ca-certificates. La signature GPG de
+#    l'archive, vérifiée par apt, garantit l'authenticité de ce qui est
+#    reçu — pas la date de l'instantané : un intermédiaire pourrait servir un
+#    autre instantané, authentique lui aussi. D'où le RÉALIGNEMENT : après
+#    l'`update` vérifié, tout ce que l'amorçage a installé ou modifié est
+#    réinstallé à la version de l'instantané épinglé. Ce qui reste de
+#    l'amorçage dans l'image ne dépend plus de ce qui a été servi.
+RUN case "${UBUNTU_SNAPSHOT}" in \
+      [0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]T[0-9][0-9][0-9][0-9][0-9][0-9]Z) ;; \
+      *) echo "UBUNTU_SNAPSHOT mal formé : '${UBUNTU_SNAPSHOT}'" >&2; exit 1 ;; \
+    esac \
+ && { [ "$(date -u +%Y%m%d%H%M%S)" -gt "$(echo "${UBUNTU_SNAPSHOT}" | tr -d TZ)" ] \
+      || { echo "UBUNTU_SNAPSHOT est dans le futur : l'archive servirait son état courant" >&2; exit 1; }; } \
+ && sed -i -E "s#^URIs: http://(archive|security)\.ubuntu\.com/ubuntu/?\$#URIs: https://snapshot.ubuntu.com/ubuntu/${UBUNTU_SNAPSHOT}/#" \
+      /etc/apt/sources.list.d/ubuntu.sources \
+ && ! grep -q -E '^URIs: .*(archive|security)\.ubuntu\.com' /etc/apt/sources.list.d/ubuntu.sources \
+ && dpkg-query -W -f='${Package} ${Version}\n' | sort > /tmp/avant \
+ && apt-get update --error-on=any \
+      -o Acquire::https::Verify-Peer=false -o Acquire::https::Verify-Host=false \
+ && apt-get install -y --no-install-recommends \
+      -o Acquire::https::Verify-Peer=false -o Acquire::https::Verify-Host=false \
+      ca-certificates \
+ && apt-get update --error-on=any \
+ && dpkg-query -W -f='${Package} ${Version}\n' | sort > /tmp/apres \
+ && REALIGNER=$(comm -13 /tmp/avant /tmp/apres | while read -r p v; do \
+      echo "$p=$(apt-cache policy "$p" | sed -n 's/^  Candidate: //p')"; done) \
+ && apt-get install -y --no-install-recommends --allow-downgrades ${REALIGNER} \
  && apt-get install -y --no-install-recommends \
       build-essential ca-certificates curl git python3 sudo unzip \
- && rm -rf /var/lib/apt/lists/*
+ && rm -rf /var/lib/apt/lists/* /tmp/avant /tmp/apres
 
 # Alire lui-même : décompressé à part, il ne sert qu'à installer le reste.
 RUN curl -fsSL -o /tmp/alr.zip \
       "https://github.com/alire-project/alire/releases/download/v${ALIRE_VERSION}/alr-${ALIRE_VERSION}-bin-x86_64-linux.zip" \
+ && echo "${ALIRE_SHA256}  /tmp/alr.zip" | sha256sum -c - \
  && unzip -q /tmp/alr.zip -d /opt/alire \
+ && echo "${ALIRE_SHA256}" > /opt/alire/archive.sha256 \
  && rm /tmp/alr.zip \
  && /opt/alire/bin/alr version
 

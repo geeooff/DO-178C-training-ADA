@@ -26,8 +26,11 @@ version de l'environnement.
 CE QUE CET OUTIL FAIT DE PARTICULIER ICI
 ----------------------------------------
 Le SECI de ce depot n'est pas une liste que l'on tient a jour : c'est
-.devcontainer/Dockerfile, ou la chaine Ada et l'image de base sont epinglees
-(les paquets apt ne le sont pas encore). L'outil lit donc les
+.devcontainer/Dockerfile, ou ce que l'image contient est epingle : image de
+base par digest, paquets apt par instantane de l'archive, archive d'Alire par
+empreinte, chaine Ada par versions de crates. Il relit aussi, dans l'image,
+l'instantane que les sources apt designent et l'empreinte d'Alire
+effectivement controlee, et signale tout ecart. L'outil lit donc les
 ARG de ce fichier EN PLUS d'interroger les outils presents sur la machine, et
 il RAPPROCHE les deux. Un ecart entre la version epinglee et la version
 detectee est signale : c'est exactement le defaut qu'un SECI doit empecher.
@@ -129,6 +132,62 @@ def pinned_versions(root: Path) -> dict[str, str]:
         if found:
             epingles[found.group(1)] = found.group(2)
     return epingles
+
+
+def pinned_arg(root: Path, nom: str) -> str:
+    """Lit la valeur d'un ARG donne du Dockerfile du SECI, ou ''."""
+    chemin = root / DOCKERFILE
+    if not chemin.is_file():
+        return ""
+    motif = re.compile(rf"^ARG\s+{re.escape(nom)}\s*=\s*(\S+)")
+    valeur = ""
+    # Docker retient la derniere definition d'un ARG, et en retire les
+    # guillemets : faire de meme, sinon l'outil signalerait un faux ecart.
+    for ligne in chemin.read_text(encoding="utf-8").splitlines():
+        found = motif.match(ligne.strip())
+        if found:
+            valeur = found.group(1).strip("\"'")
+    return valeur
+
+
+# Les sources apt de l'image : le Dockerfile les reecrit vers l'instantane.
+# C'est elles qu'apt lit, donc elles qu'il faut relire.
+APT_SOURCES = Path("/etc/apt/sources.list.d/ubuntu.sources")
+
+# Preuve laissee dans l'image par le Dockerfile, apres le `sha256sum -c` de
+# l'archive d'Alire : l'empreinte effectivement controlee.
+ALIRE_PREUVE = Path("/opt/alire/archive.sha256")
+
+
+def detected_snapshot() -> str:
+    """Rend l'instantane que les sources apt de la machine designent.
+
+    'non detecte' si les sources sont absentes (hors de l'image) ;
+    'archive courante' si une source au moins ne designe pas un instantane ;
+    'instantanes multiples' si elles en designent plusieurs.
+    """
+    try:
+        texte = APT_SOURCES.read_text(encoding="utf-8")
+    except OSError:
+        return "non detecte"
+    uris = re.findall(r"^URIs:\s*(\S+)", texte, re.MULTILINE)
+    if not uris:
+        return "non detecte"
+    dates = set()
+    for uri in uris:
+        found = re.match(r"https://snapshot\.ubuntu\.com/ubuntu/(\w+)/?$", uri)
+        if not found:
+            return "archive courante"
+        dates.add(found.group(1))
+    return dates.pop() if len(dates) == 1 else "instantanes multiples"
+
+
+def detected_alire_sha() -> str:
+    """Rend l'empreinte d'archive d'Alire controlee a la construction."""
+    try:
+        return ALIRE_PREUVE.read_text(encoding="utf-8").strip() or "non detecte"
+    except OSError:
+        return "non detecte"
 
 
 def base_images(root: Path) -> list[str]:
@@ -345,12 +404,37 @@ def build_seci(root: Path) -> str:
         if not images:
             out.append("- (aucune ligne FROM trouvée)")
     out.append("")
-    out.append("Non épinglés à ce jour, et dits ici plutôt que passés sous")
-    out.append("silence : les **paquets apt**, qui suivent l'archive Ubuntu au")
-    out.append("moment d'une construction à froid, et l'**archive d'Alire**,")
-    out.append("téléchargée sans contrôle d'empreinte. Voir")
-    out.append("[`docs/03-outils.md`](../docs/03-outils.md) §5.")
-    out.append("")
+    snapshot = pinned_arg(root, "UBUNTU_SNAPSHOT")
+    alire_sha = pinned_arg(root, "ALIRE_SHA256")
+    non_epingles: list[str] = []
+    if not snapshot:
+        non_epingles.append("les paquets apt (aucun `ARG UBUNTU_SNAPSHOT`)")
+    if not alire_sha:
+        non_epingles.append("l'archive d'Alire (aucun `ARG ALIRE_SHA256`)")
+    if non_epingles:
+        out.append("> **NON ÉPINGLÉ** : " + " ; ".join(non_epingles) + ".")
+        out.append("> Ce que l'image contient peut alors changer sans que le dépôt")
+        out.append("> change. Voir [`docs/03-outils.md`](../docs/03-outils.md) §5.")
+        out.append("")
+    # Dans l'image — les outils Ada y sont detectes —, un epinglage declare
+    # mais absent de la machine est un ecart, pas un silence : c'est le cas
+    # d'une image construite avant l'epinglage, ou d'une source modifiee.
+    dans_image = not any("non detecte" in ligne for ligne in lignes)
+    snapshot_detecte = detected_snapshot()
+    if snapshot and snapshot_detecte != snapshot and (
+        dans_image or snapshot_detecte != "non detecte"
+    ):
+        ecarts.append(
+            f"instantané apt : épinglé `{snapshot}`, détecté `{snapshot_detecte}`"
+        )
+    alire_detecte = detected_alire_sha()
+    if alire_sha and alire_detecte != alire_sha and (
+        dans_image or alire_detecte != "non detecte"
+    ):
+        ecarts.append(
+            f"archive d'Alire : empreinte épinglée `{alire_sha[:16]}…`, "
+            f"contrôlée `{alire_detecte[:16]}`"
+        )
     sans_digest = [image for image in images if "@sha256:" not in image]
     if sans_digest or not images:
         out.append("> **IMAGE DE BASE NON ÉPINGLÉE PAR DIGEST** : "
@@ -384,6 +468,15 @@ def build_seci(root: Path) -> str:
     out.append("|---|---|---|")
     out.extend(lignes)
     out.append(f"| Alire (`alr`) | `{epingles.get('ALIRE_VERSION', '?')}` | — |")
+    out.append(
+        f"| Archive d'Alire (SHA-256) | "
+        f"`{alire_sha[:16] + '…' if alire_sha else '(non épinglé)'}` | "
+        f"`{alire_detecte[:16] + '…' if alire_detecte != 'non detecte' else alire_detecte}` |"
+    )
+    out.append(
+        f"| Archive Ubuntu (instantané apt) | "
+        f"`{snapshot or '(non épinglé)'}` | `{snapshot_detecte}` |"
+    )
     out.append(f"| Python | — | `{platform.python_version()}` |")
     git_version = tool_version(["git", "--version"], r"\d+\.\d+\.\d+[\w.-]*")
     out.append(f"| Git | — | `{git_version}` |")
@@ -403,6 +496,10 @@ def build_seci(root: Path) -> str:
         out.append("> Certains outils n'ont pas été détectés : ce document a")
         out.append("> probablement été généré **hors** de l'image. Il ne")
         out.append("> décrit alors pas l'environnement qui produit le binaire.")
+        out.append("")
+    elif non_epingles or sans_digest or not images:
+        out.append("> Pas d'écart de version, mais l'épinglage est incomplet :")
+        out.append("> voir plus haut. Ce SECI ne peut pas se dire conforme.")
         out.append("")
     else:
         out.append("> Aucun écart : la machine correspond à l'épinglage.")

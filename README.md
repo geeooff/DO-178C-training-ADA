@@ -110,11 +110,13 @@ Aucun n'est une estimation, et chacun se rejoue d'une commande.
 
 ## Chaîne d'outils
 
-La chaîne Ada et l'image de base sont épinglées dans
+Ce que l'image contient est épinglé dans
 [`.devcontainer/Dockerfile`](.devcontainer/Dockerfile), qui tient lieu de
-**SECI** exécutable (DO-178C §11.15). Les paquets système installés par
-`apt` ne le sont pas encore : [`docs/03-outils.md`](docs/03-outils.md) dit
-ce que cela laisse dériver.
+**SECI** exécutable (DO-178C §11.15) : l'image de base par son digest, les
+paquets système par un instantané daté de l'archive Ubuntu, l'archive d'Alire
+par son empreinte, la chaîne Ada par ses versions. Une réserve, dite dans
+[`docs/03-outils.md`](docs/03-outils.md) : l'index communautaire d'Alire est
+suivi en tête de branche.
 
 | Outil | Version | Rôle |
 |---|---|---|
@@ -125,6 +127,7 @@ ce que cela laisse dériver.
 | `gnatformat` | 26.0.0 | formatage |
 | Alire (`alr`) | 2.1.1 | installation de la chaîne |
 | Image de base | `ubuntu:resolute` (26.04 LTS), **épinglée par digest** | socle du SECI |
+| Paquets apt | instantané `snapshot.ubuntu.com` du 2026-10-02 | compilateur C, git, python3… |
 
 Détails, pièges vérifiés et statut DO-330 de chaque outil :
 [`docs/03-outils.md`](docs/03-outils.md).

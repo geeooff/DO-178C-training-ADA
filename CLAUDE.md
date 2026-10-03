@@ -143,6 +143,8 @@ couverture, formatage) dans une image `ubuntu:26.04`. Versions épinglées dans
 | `gnatformat` (`gnatformat_bin`) | 26.0.0 | Alire |
 | Alire (`alr`) | 2.1.1 | binaire amont GitHub |
 | Image de base | `ubuntu:resolute@sha256:…` (26.04 LTS) | épinglée par digest le 2026-10-02 — valeur dans le Dockerfile |
+| Paquets apt | instantané `20261002T000000Z` | snapshot.ubuntu.com, épinglé le 2026-10-03 |
+| Archive Alire | SHA-256 `09c66bcd…` | contrôlée par `sha256sum -c` à la construction |
 
 **Le paquet `alire` d'Ubuntu ne convient pas.** Il existe bien
 (`resolute/universe`, `1.2.1-2.1build1`), mais `alr` 1.2.1 n'accepte que la
@@ -213,6 +215,15 @@ privilégié du conteneur.
   `26.04` ; un nom de code en est exempté, et ne glisse jamais vers une
   version non LTS. Chaque proposition de digest est un changement de SECI :
   vérification complète avant d'accepter.
+- **Épingler apt par instantané : quatre pièges.** (1) `APT::Snapshot`
+  télécharge aussi les index de l'archive courante : réécrire les URI des
+  sources. (2) Un instantané injoignable laisse `apt-get update` à 0, et
+  l'échec n'apparaît qu'à l'installation : toujours `--error-on=any`.
+  (3) snapshot.ubuntu.com est en HTTPS et l'image de base sans
+  certificats : amorçage sans vérification TLS, puis RÉALIGNEMENT de ce
+  qu'il a installé sur l'instantané épinglé — la signature GPG garantit
+  l'authenticité, pas la date. (4) Une date future sert l'archive
+  courante : le Dockerfile la refuse.
 - **Le cache GHA ne survit pas au rythme de ce dépôt.** Il est évincé après
   7 jours sans accès, et cloisonné : une branche lit son propre cache et
   celui de main, jamais celui d'une autre branche. Vérifié le 2026-10-02 :
@@ -367,12 +378,12 @@ répertoires `requirements/`, que le README de leur module présente.
   sur des offres réelles.
 - Les versions des crates Alire du Dockerfile ne sont suivies par personne :
   point de revue manuel, à faire à chaque proposition Dependabot.
-- **Paquets apt et archive Alire non épinglés.** Sept paquets ont changé de
-  version entre les constructions du 19 septembre et du 2 octobre 2026.
-  Correction prévue, dans une branche dédiée : `apt-get update --snapshot`
-  (snapshot.ubuntu.com) et `sha256sum -c` sur l'archive d'Alire, puis
-  vérification complète. D'ici là, le dépôt dit « chaîne Ada et image de
-  base épinglées », jamais « toutes les versions ».
+- La date de l'instantané apt (`UBUNTU_SNAPSHOT`) n'est suivie par personne
+  non plus : elle avance à la main avec le digest de l'image de base, dans
+  le même commit.
+- L'index communautaire d'Alire est suivi en tête de sa branche
+  `stable-1.4.0`, sans commit épinglé : c'est la seule réserve qui reste à
+  l'épinglage du SECI. À épingler si `alr` le permet.
 
 ## Décisions arrêtées — 2026-08-28
 

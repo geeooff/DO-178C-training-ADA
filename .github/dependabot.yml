@@ -34,6 +34,11 @@
 #  c'est le prix de l'épinglage, et c'est ce que doit coûter un changement de
 #  SECI.
 #
+#  La date de l'instantané apt (ARG UBUNTU_SNAPSHOT du Dockerfile) doit
+#  avancer avec ce digest, rester postérieure à l'image de base et dans le
+#  passé — le Dockerfile refuse une date future : Dependabot ne la voit pas. À chaque proposition de digest, la mettre à
+#  jour dans le même commit. De même, ALIRE_SHA256 change avec ALIRE_VERSION.
+#
 #  Le nom de code règle aussi la question des versions non LTS : `resolute`
 #  ne désignera jamais 26.10. Passer à la LTS suivante sera une décision
 #  explicite — changer de nom de code — prise après avoir rejoué toute la

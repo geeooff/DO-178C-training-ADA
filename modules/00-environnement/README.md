@@ -195,12 +195,16 @@ Deux conséquences :
 
 | | Comment | Exemples |
 |---|---|---|
-| **Épinglé** — la chaîne Ada et l'image de base | une valeur exacte dans le Dockerfile ; en changer est un commit à part, suivi d'une vérification complète | `ARG GNATPROVE_VERSION=16.1.0`, `FROM ubuntu:resolute@sha256:…` |
+| **Épinglé** — ce que l'image contient | une valeur exacte dans le Dockerfile ; en changer est un commit à part, suivi d'une vérification complète | `FROM ubuntu:resolute@sha256:…`, `ARG UBUNTU_SNAPSHOT=…` pour les paquets apt, `ARG ALIRE_SHA256=…`, `ARG GNATPROVE_VERSION=16.1.0` |
 | **Tracé** — ce qui construit l'image | consigné à chaque exécution dans le journal de CI et dans le SECI | image du runner GitHub, buildx, BuildKit |
-| **Pas encore épinglé** | dit dans le Dockerfile et dans [`docs/03-outils.md`](../../docs/03-outils.md) §5 | paquets apt, archive d'Alire |
 
 Une version de crate Alire, comme `GNATPROVE_VERSION`, vaut épinglage : l'index
-Alire consigne l'empreinte SHA-256 de chaque archive. Ce qu'on ne peut pas
+Alire consigne l'empreinte SHA-256 de chaque archive — un index suivi, lui, en
+tête de branche, et c'est la seule réserve. Les paquets apt sont
+figés par un instantané daté de l'archive Ubuntu — sans lui, sept d'entre eux
+ont changé de version en deux semaines —, et l'archive d'Alire elle-même par
+son empreinte ; [`docs/03-outils.md`](../../docs/03-outils.md) §5 dit
+comment, et les deux pièges rencontrés. Ce qu'on ne peut pas
 épingler — l'image du runner GitHub — on le trace. Ce qu'on pourrait figer
 sans que personne n'en surveille la version — BuildKit, dans le workflow — on
 le trace aussi : une version épinglée que rien ne suit est une dette, pas une
