@@ -3,7 +3,7 @@
 > **Document** : *Software Code Standards*, DO-178C §11.8
 > **Objectif visé** : A-5.4 — *le code source est conforme au standard*
 > **Version** : 1.0
-> **Statut de configuration** : CC2
+> **Statut de configuration** : CC1
 
 ---
 

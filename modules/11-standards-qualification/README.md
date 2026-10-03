@@ -222,7 +222,7 @@ Toutes les données de vie ne sont pas gardées de la même façon.
 | Protection contre modification non autorisée | oui | oui |
 | **Revue et approbation formelles** | **oui** | non |
 | **Archivage et récupération garantis** | **oui** | allégé |
-| Exemples | plans, exigences, code source, SCI, SECI, résultats de vérification | standards de codage, cas de test intermédiaires, données de développement |
+| Exemples | PSAC et SCI à tous les niveaux ; aux niveaux A et B, les autres plans et les standards ; le SECI jusqu'au niveau C | résultats de vérification (§11.14) et enregistrements de gestion de configuration (§11.18), à tous les niveaux |
 
 Chaque table de l'annexe A donne, pour chaque donnée qu'elle produit, sa
 catégorie de contrôle par niveau — le SECI figure dans la table A-8.
@@ -232,8 +232,10 @@ l'environnement doit toujours être identifié et maîtrisé, mais l'enjeu de
 sécurité ne justifie plus une revue et une approbation formelles de chaque
 version. Le FQMS du module 12, DAL B, a donc les deux en CC1.
 
-Le standard de codage de ce dépôt est marqué **CC2**, et c'est délibéré : il
-se relit et se met à jour sans la lourdeur d'une approbation formelle.
+Le standard de codage de ce dépôt est marqué **CC1** : la table A-1 met les
+standards en CC1 aux niveaux A et B, et le cas d'étude est DAL B. Il ne
+passe en CC2 qu'au niveau C. Le confort d'un standard qu'on retouche sans
+approbation formelle n'est pas un choix ouvert à ce niveau.
 
 ---
 
@@ -241,7 +243,7 @@ se relit et se met à jour sans la lourdeur d'une approbation formelle.
 
 | Fichier | Rôle DO-178C |
 |---|---|
-| [`standard-de-codage.md`](standard-de-codage.md) | *Software Code Standards*, §11.8 — CC2 |
+| [`standard-de-codage.md`](standard-de-codage.md) | *Software Code Standards*, §11.8 — CC1 |
 | [`nonconforme/`](nonconforme/) | le contre-exemple, exclu du protocole |
 | [`../../scripts/coding-standard.sh`](../../scripts/coding-standard.sh) | la frontière outillage / revue, mesurée |
 | [`../../tools/config_index.py`](../../tools/config_index.py) | générateur SCI (§11.16) et SECI (§11.15) |
