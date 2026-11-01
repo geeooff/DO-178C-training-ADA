@@ -30,7 +30,7 @@
 # code en est exempté, et ne peut pas non plus glisser vers une version non
 # LTS. À chaque passage mensuel, Dependabot propose donc le digest courant
 # de `resolute` : la dérive silencieuse devient une proposition relue.
-FROM ubuntu:resolute@sha256:3595d7fc4286a33fad0fd853a4063e654287a9c3787437d7937c94ca3f7a804e
+FROM ubuntu:resolute@sha256:6a06111c3b0a8600feadb270aec771dc239bf407b25625f93f44ab00e11f4d3c
 
 # Alire est le gestionnaire de paquets d'Ada. On prend le binaire amont et non
 # le paquet `alire` de l'univers Ubuntu (1.2.1) : cette version-là est bloquée
